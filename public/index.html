@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editor de Diagramas de Flujo - Testing</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="top-section">
+        <div class="tools-frame">
+          <div class="tools-title">Herramientas</div>
+
+          <!-- Formas básicas -->
+          <div class="tool-category">
+            <div class="category-title">Básicas</div>
+            <div class="tool-grid">
+              <div
+                class="tool-shape tool-oval"
+                data-shape="oval"
+                title="Inicio/Fin"
+              >
+                <div class="shape-preview shape-preview-oval"></div>
+                <span>Inicio/Fin</span>
+              </div>
+
+              <div
+                class="tool-shape tool-rectangle"
+                data-shape="rectangle"
+                title="Proceso/Acción"
+              >
+                <div class="shape-preview shape-preview-rectangle"></div>
+                <span>Proceso</span>
+              </div>
+
+              <div
+                class="tool-shape tool-diamond"
+                data-shape="diamond"
+                title="Decisión/Validación"
+              >
+                <div class="shape-preview shape-preview-diamond"></div>
+                <span>Decisión</span>
+              </div>
+
+              <div
+                class="tool-shape tool-parallelogram"
+                data-shape="parallelogram"
+                title="Input/Output"
+              >
+                <div class="shape-preview shape-preview-parallelogram"></div>
+                <span>I/O</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formas avanzadas -->
+          <div class="tool-category">
+            <div class="category-title">Avanzadas</div>
+            <div class="tool-grid">
+              <div
+                class="tool-shape tool-rounded-rect"
+                data-shape="roundedRect"
+                title="Subproceso"
+              >
+                <div class="shape-preview shape-preview-rounded-rect"></div>
+                <span>Subproceso</span>
+              </div>
+
+              <div
+                class="tool-shape tool-hexagon"
+                data-shape="hexagon"
+                title="Preparación/Espera"
+              >
+                <div class="shape-preview shape-preview-hexagon"></div>
+                <span>Preparación</span>
+              </div>
+
+              <div
+                class="tool-shape tool-trapezoid"
+                data-shape="trapezoid"
+                title="Acción Manual"
+              >
+                <div class="shape-preview shape-preview-trapezoid"></div>
+                <span>Manual</span>
+              </div>
+
+              <div
+                class="tool-shape tool-cylinder"
+                data-shape="cylinder"
+                title="Base de Datos"
+              >
+                <div class="shape-preview shape-preview-cylinder"></div>
+                <span>Datos</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conectores -->
+          <div class="tool-category">
+            <div class="category-title">Conectores</div>
+            <div class="tool-grid">
+              <div
+                class="tool-shape tool-arrow"
+                data-shape="arrow"
+                title="Flecha"
+              >
+                <div class="shape-preview shape-preview-arrow"></div>
+                <span>Flecha</span>
+              </div>
+
+              <div
+                class="tool-shape tool-connector"
+                data-shape="connector"
+                title="Conector"
+              >
+                <div class="shape-preview shape-preview-connector"></div>
+                <span>Conector</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="visualization-area">
+          <div class="visualization-title">
+            Lienzo de trabajo - Diagrama de flujo de Testing
+          </div>
+          <div class="canvas-area" id="canvas"></div>
+        </div>
+      </div>
+
+      <div class="actions-frame">
+        <div class="actions-title">Acciones</div>
+        <div class="action-buttons">
+          <button class="action-btn" id="btnClear">
+            <span>Limpiar</span>
+          </button>
+          <button class="action-btn" id="btnSave">
+            <span>Guardar</span>
+          </button>
+          <button class="action-btn" id="btnExport">
+            <span>Exportar</span>
+          </button>
+          <button class="action-btn" id="btnLoad">
+            <span>Cargar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
