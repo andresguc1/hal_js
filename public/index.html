@@ -138,32 +138,62 @@
       </div>
 
       <!-- Panel de acciones -->
-      <div class="actions-frame">
-        <div class="actions-title">Acciones</div>
-        <div class="action-buttons">
-          <button class="action-btn" id="btnClear">
-            <span>Limpiar</span>
-          </button>
-          <button class="action-btn" id="btnSave">
-            <span>Guardar</span>
-          </button>
-          <button class="action-btn" id="btnExport">
-            <span>Exportar</span>
-          </button>
-          <button class="action-btn" id="btnLoad">
-            <span>Cargar</span>
-          </button>
+<div class="actions-frame">
+    <!-- Pestañas de proyectos -->
+    <div class="tabs-container">
+        <div class="tabs-list" id="tabsList">
+            <div class="tab active" data-tab-id="0">
+                <span class="tab-name">Proyecto 1</span>
+                <button class="tab-close" onclick="closeTab(0)">×</button>
+            </div>
         </div>
-      </div>
+        <button class="tab-add" onclick="addNewTab()" title="Nuevo proyecto">+</button>
     </div>
+    
+    <!-- Área de trabajo con scroll horizontal -->
+    <div class="workspace-container">
+        <div class="workspace-content" id="workspace-0" data-tab-id="0">
+            <!-- Aquí se agregan las formas -->
+        </div>
+    </div>
+    
+    <!-- Barra de herramientas inferior -->
+    <div class="actions-toolbar">
+        <div class="toolbar-left">
+            <button class="toolbar-btn btn-execute" id="btnExecute" title="Ejecutar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>Ejecutar</span>
+            </button>
+            <div class="toolbar-separator"></div>
+            <button class="toolbar-btn" id="btnClear" title="Limpiar">
+                <span>Limpiar</span>
+            </button>
+        </div>
+        
+        <div class="toolbar-right">
+            <button class="toolbar-btn" id="btnSave" title="Guardar">
+                <span>Guardar</span>
+            </button>
+            <button class="toolbar-btn" id="btnExport" title="Exportar">
+                <span>Exportar</span>
+            </button>
+            <button class="toolbar-btn" id="btnLoad" title="Cargar">
+                <span>Cargar</span>
+            </button>
+        </div>
+    </div>
+</div>
 
     <!-- JavaScript Files -->
-    <script src="js/utils.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/shapes.js"></script>
-    <script src="js/config-panel.js"></script>
-    <script src="js/drag-drop.js"></script>
-    <script src="js/tools.js"></script>
-    <script src="js/app.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/shapes.js"></script>
+<script src="js/config-panel.js"></script>
+<script src="js/drag-drop.js"></script>
+<script src="js/tools.js"></script>
+<script src="js/tabs.js"></script>
+<script src="js/app.js"></script>
   </body>
 </html>
