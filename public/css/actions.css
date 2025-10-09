@@ -333,3 +333,78 @@
 .tab {
   animation: tabSlideIn 0.2s ease;
 }
+
+/* Edición de nombre de pestaña */
+.tab-name {
+  font-size: 13px;
+  color: #333;
+  font-weight: 500;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+.tab-name:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.tab.active .tab-name {
+  color: #000;
+  font-weight: 600;
+}
+
+.tab-name-input {
+  font-size: 13px;
+  color: #333;
+  font-weight: 500;
+  border: 1px solid #4a90e2;
+  border-radius: 3px;
+  padding: 2px 4px;
+  outline: none;
+  background: white;
+  width: 100%;
+  font-family: inherit;
+}
+
+/* Menú contextual para pestañas */
+.tab-context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  z-index: 10000;
+  min-width: 150px;
+}
+
+.tab-context-menu-item {
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-context-menu-item:hover {
+  background: #f0f0f0;
+}
+
+.tab-context-menu-item.danger:hover {
+  background: #ffebee;
+  color: #e74c3c;
+}
+
+.tab-context-menu-separator {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 4px 0;
+}

@@ -409,6 +409,9 @@ function initApp() {
   // Cargar estado guardado
   AppState.loadState();
 
+  // Configurar navegación por teclado
+  window.tabs.setupKeyboardNav();
+
   console.log("Aplicación iniciada correctamente");
 }
 
