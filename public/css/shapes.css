@@ -1,0 +1,233 @@
+/* Formas en general */
+.placed-shape {
+  position: absolute;
+  cursor: move;
+  user-select: none;
+  z-index: 1;
+  transition: filter 0.2s ease;
+}
+
+.placed-shape:hover {
+  z-index: 10;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.placed-shape.dragging {
+  z-index: 1000;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+}
+
+/* Óvalo - Inicio/Fin */
+.shape-oval {
+  border: 2px solid #333333;
+  background: white;
+  border-radius: 50%;
+  padding: 12px 20px;
+  min-width: 100px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Rectángulo - Proceso */
+.shape-rectangle {
+  border: 2px solid #333333;
+  background: white;
+  border-radius: 4px;
+  padding: 12px 20px;
+  min-width: 120px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Diamante - Decisión */
+.shape-diamond {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #333333;
+  background: white;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Paralelogramo - Input/Output */
+.shape-parallelogram {
+  border: 2px solid #333333;
+  background: white;
+  padding: 12px 20px;
+  min-width: 120px;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: skewX(-20deg);
+}
+
+.shape-parallelogram span {
+  transform: skewX(20deg);
+  display: block;
+}
+
+/* Rectángulo redondeado - Subproceso */
+.shape-roundedRect {
+  border: 2px solid #333333;
+  background: white;
+  border-radius: 20px;
+  padding: 12px 20px;
+  min-width: 120px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hexágono - Preparación */
+.shape-hexagon {
+  width: 100px;
+  height: 60px;
+  background: white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.shape-hexagon::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: white;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.shape-hexagon span {
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+}
+
+/* Trapecio - Manual */
+.shape-trapezoid {
+  width: 120px;
+  height: 60px;
+  background: white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.shape-trapezoid span {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+}
+
+/* Cilindro - Base de Datos */
+.shape-cylinder {
+  width: 100px;
+  height: 80px;
+  background: white;
+  position: relative;
+  border: 2px solid #333333;
+  border-radius: 50% 50% 0 0 / 15% 15% 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.shape-cylinder::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 20px;
+  background: white;
+  border: 2px solid #333333;
+  border-radius: 50%;
+}
+
+.shape-cylinder span {
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+  margin-top: 10px;
+}
+
+/* Flecha */
+.shape-arrow {
+  width: 80px;
+  height: 2px;
+  background: #333333;
+  position: relative;
+}
+
+.shape-arrow::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: -5px;
+  width: 0;
+  height: 0;
+  border-left: 14px solid #333333;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+}
+
+/* Conector */
+.shape-connector {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Permitir selección de texto en formas editables */
+.shape-oval,
+.shape-rectangle,
+.shape-parallelogram span,
+.shape-roundedRect,
+.shape-hexagon span,
+.shape-trapezoid span,
+.shape-cylinder span {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
