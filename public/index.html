@@ -17,114 +17,281 @@
     <div class="main-container">
       <div class="top-section">
         <!-- Panel de herramientas -->
-        <div class="tools-frame">
-          <div class="tools-title">Herramientas</div>
-
-          <div class="tool-category">
-            <div class="category-title">Básicas</div>
-            <div class="tool-grid">
-              <div
-                class="tool-shape tool-oval"
-                data-shape="oval"
-                title="Inicio/Fin"
-              >
-                <div class="shape-preview shape-preview-oval"></div>
-                <span>Inicio/Fin</span>
-              </div>
-
-              <div
-                class="tool-shape tool-rectangle"
-                data-shape="rectangle"
-                title="Proceso/Acción"
-              >
-                <div class="shape-preview shape-preview-rectangle"></div>
-                <span>Proceso</span>
-              </div>
-
-              <div
-                class="tool-shape tool-diamond"
-                data-shape="diamond"
-                title="Decisión/Validación"
-              >
-                <div class="shape-preview shape-preview-diamond"></div>
-                <span>Decisión</span>
-              </div>
-
-              <div
-                class="tool-shape tool-parallelogram"
-                data-shape="parallelogram"
-                title="Input/Output"
-              >
-                <div class="shape-preview shape-preview-parallelogram"></div>
-                <span>I/O</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tool-category">
-            <div class="category-title">Avanzadas</div>
-            <div class="tool-grid">
-              <div
-                class="tool-shape tool-rounded-rect"
-                data-shape="roundedRect"
-                title="Subproceso"
-              >
-                <div class="shape-preview shape-preview-rounded-rect"></div>
-                <span>Subproceso</span>
-              </div>
-
-              <div
-                class="tool-shape tool-hexagon"
-                data-shape="hexagon"
-                title="Preparación/Espera"
-              >
-                <div class="shape-preview shape-preview-hexagon"></div>
-                <span>Preparación</span>
-              </div>
-
-              <div
-                class="tool-shape tool-trapezoid"
-                data-shape="trapezoid"
-                title="Acción Manual"
-              >
-                <div class="shape-preview shape-preview-trapezoid"></div>
-                <span>Manual</span>
-              </div>
-
-              <div
-                class="tool-shape tool-cylinder"
-                data-shape="cylinder"
-                title="Base de Datos"
-              >
-                <div class="shape-preview shape-preview-cylinder"></div>
-                <span>Datos</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tool-category">
-            <div class="category-title">Conectores</div>
-            <div class="tool-grid">
-              <div
-                class="tool-shape tool-arrow"
-                data-shape="arrow"
-                title="Flecha"
-              >
-                <div class="shape-preview shape-preview-arrow"></div>
-                <span>Flecha</span>
-              </div>
-
-              <div
-                class="tool-shape tool-connector"
-                data-shape="connector"
-                title="Conector"
-              >
-                <div class="shape-preview shape-preview-connector"></div>
-                <span>Conector</span>
-              </div>
-            </div>
-          </div>
+        <!-- Panel de herramientas con pestañas -->
+<div class="tools-frame">
+    <div class="tools-header">
+        <h3>Acciones de Testing</h3>
+    </div>
+    
+    <!-- Pestañas de categorías -->
+    <div class="tools-tabs">
+        <button class="tools-tab active" data-category="navigation" onclick="switchToolCategory('navigation')">
+            Navegación
+        </button>
+        <button class="tools-tab" data-category="interaction" onclick="switchToolCategory('interaction')">
+            Interacción
+        </button>
+        <button class="tools-tab" data-category="validation" onclick="switchToolCategory('validation')">
+            Validación
+        </button>
+        <button class="tools-tab" data-category="control" onclick="switchToolCategory('control')">
+            Control
+        </button>
+        <button class="tools-tab" data-category="wait" onclick="switchToolCategory('wait')">
+            Esperas
+        </button>
+        <button class="tools-tab" data-category="advanced" onclick="switchToolCategory('advanced')">
+            Avanzado
+        </button>
+    </div>
+    
+    <!-- Contenido de las pestañas -->
+    <div class="tools-content">
+        <!-- Navegación -->
+        <div class="tools-category active" data-category="navigation">
+            <button class="tool-action-btn" data-action="openUrl">
+                <span class="tool-icon">🌐</span>
+                <span class="tool-name">Abrir URL</span>
+            </button>
+            <button class="tool-action-btn" data-action="goBack">
+                <span class="tool-icon">◀️</span>
+                <span class="tool-name">Retroceder</span>
+            </button>
+            <button class="tool-action-btn" data-action="goForward">
+                <span class="tool-icon">▶️</span>
+                <span class="tool-name">Avanzar</span>
+            </button>
+            <button class="tool-action-btn" data-action="reload">
+                <span class="tool-icon">🔄</span>
+                <span class="tool-name">Recargar</span>
+            </button>
+            <button class="tool-action-btn" data-action="switchTab">
+                <span class="tool-icon">🗂️</span>
+                <span class="tool-name">Cambiar Pestaña</span>
+            </button>
         </div>
+        
+        <!-- Interacción -->
+        <div class="tools-category" data-category="interaction">
+            <button class="tool-action-btn" data-action="click">
+                <span class="tool-icon">👆</span>
+                <span class="tool-name">Click</span>
+            </button>
+            <button class="tool-action-btn" data-action="doubleClick">
+                <span class="tool-icon">👆👆</span>
+                <span class="tool-name">Doble Click</span>
+            </button>
+            <button class="tool-action-btn" data-action="rightClick">
+                <span class="tool-icon">🖱️</span>
+                <span class="tool-name">Click Derecho</span>
+            </button>
+            <button class="tool-action-btn" data-action="type">
+                <span class="tool-icon">⌨️</span>
+                <span class="tool-name">Escribir Texto</span>
+            </button>
+            <button class="tool-action-btn" data-action="fill">
+                <span class="tool-icon">✏️</span>
+                <span class="tool-name">Rellenar Campo</span>
+            </button>
+            <button class="tool-action-btn" data-action="select">
+                <span class="tool-icon">📋</span>
+                <span class="tool-name">Seleccionar Opción</span>
+            </button>
+            <button class="tool-action-btn" data-action="check">
+                <span class="tool-icon">☑️</span>
+                <span class="tool-name">Marcar Checkbox</span>
+            </button>
+            <button class="tool-action-btn" data-action="uncheck">
+                <span class="tool-icon">☐</span>
+                <span class="tool-name">Desmarcar Checkbox</span>
+            </button>
+            <button class="tool-action-btn" data-action="hover">
+                <span class="tool-icon">👋</span>
+                <span class="tool-name">Hover</span>
+            </button>
+            <button class="tool-action-btn" data-action="dragDrop">
+                <span class="tool-icon">🎯</span>
+                <span class="tool-name">Drag & Drop</span>
+            </button>
+            <button class="tool-action-btn" data-action="press">
+                <span class="tool-icon">⏎</span>
+                <span class="tool-name">Presionar Tecla</span>
+            </button>
+        </div>
+        
+        <!-- Validación -->
+        <div class="tools-category" data-category="validation">
+            <button class="tool-action-btn" data-action="getText">
+                <span class="tool-icon">📝</span>
+                <span class="tool-name">Obtener Texto</span>
+            </button>
+            <button class="tool-action-btn" data-action="getAttribute">
+                <span class="tool-icon">🏷️</span>
+                <span class="tool-name">Leer Atributo</span>
+            </button>
+            <button class="tool-action-btn" data-action="getValue">
+                <span class="tool-icon">💾</span>
+                <span class="tool-name">Obtener Valor</span>
+            </button>
+            <button class="tool-action-btn" data-action="isVisible">
+                <span class="tool-icon">👁️</span>
+                <span class="tool-name">Verificar Visible</span>
+            </button>
+            <button class="tool-action-btn" data-action="isEnabled">
+                <span class="tool-icon">✅</span>
+                <span class="tool-name">Verificar Habilitado</span>
+            </button>
+            <button class="tool-action-btn" data-action="exists">
+                <span class="tool-icon">🔍</span>
+                <span class="tool-name">Verificar Existe</span>
+            </button>
+            <button class="tool-action-btn" data-action="validateUrl">
+                <span class="tool-icon">🔗</span>
+                <span class="tool-name">Validar URL</span>
+            </button>
+            <button class="tool-action-btn" data-action="validateTitle">
+                <span class="tool-icon">📄</span>
+                <span class="tool-name">Validar Título</span>
+            </button>
+            <button class="tool-action-btn" data-action="assertText">
+                <span class="tool-icon">✔️</span>
+                <span class="tool-name">Verificar Texto</span>
+            </button>
+            <button class="tool-action-btn" data-action="assertValue">
+                <span class="tool-icon">🎯</span>
+                <span class="tool-name">Verificar Valor</span>
+            </button>
+        </div>
+        
+        <!-- Control -->
+        <div class="tools-category" data-category="control">
+            <button class="tool-action-btn" data-action="openNewTab">
+                <span class="tool-icon">➕</span>
+                <span class="tool-name">Abrir Pestaña</span>
+            </button>
+            <button class="tool-action-btn" data-action="closeTab">
+                <span class="tool-icon">✖️</span>
+                <span class="tool-name">Cerrar Pestaña</span>
+            </button>
+            <button class="tool-action-btn" data-action="openWindow">
+                <span class="tool-icon">🪟</span>
+                <span class="tool-name">Abrir Ventana</span>
+            </button>
+            <button class="tool-action-btn" data-action="closeWindow">
+                <span class="tool-icon">❌</span>
+                <span class="tool-name">Cerrar Ventana</span>
+            </button>
+            <button class="tool-action-btn" data-action="maximize">
+                <span class="tool-icon">⛶</span>
+                <span class="tool-name">Maximizar</span>
+            </button>
+            <button class="tool-action-btn" data-action="handleAlert">
+                <span class="tool-icon">⚠️</span>
+                <span class="tool-name">Manejar Alerta</span>
+            </button>
+            <button class="tool-action-btn" data-action="handleConfirm">
+                <span class="tool-icon">❓</span>
+                <span class="tool-name">Manejar Confirm</span>
+            </button>
+            <button class="tool-action-btn" data-action="handlePrompt">
+                <span class="tool-icon">💬</span>
+                <span class="tool-name">Manejar Prompt</span>
+            </button>
+            <button class="tool-action-btn" data-action="setCookie">
+                <span class="tool-icon">🍪</span>
+                <span class="tool-name">Establecer Cookie</span>
+            </button>
+            <button class="tool-action-btn" data-action="getCookie">
+                <span class="tool-icon">🍪</span>
+                <span class="tool-name">Obtener Cookie</span>
+            </button>
+            <button class="tool-action-btn" data-action="clearCookies">
+                <span class="tool-icon">🧹</span>
+                <span class="tool-name">Limpiar Cookies</span>
+            </button>
+            <button class="tool-action-btn" data-action="localStorage">
+                <span class="tool-icon">💾</span>
+                <span class="tool-name">Local Storage</span>
+            </button>
+        </div>
+        
+        <!-- Esperas -->
+        <div class="tools-category" data-category="wait">
+            <button class="tool-action-btn" data-action="waitVisible">
+                <span class="tool-icon">⏳👁️</span>
+                <span class="tool-name">Esperar Visible</span>
+            </button>
+            <button class="tool-action-btn" data-action="waitClickable">
+                <span class="tool-icon">⏳👆</span>
+                <span class="tool-name">Esperar Clickeable</span>
+            </button>
+            <button class="tool-action-btn" data-action="waitPresent">
+                <span class="tool-icon">⏳🔍</span>
+                <span class="tool-name">Esperar Presente</span>
+            </button>
+            <button class="tool-action-btn" data-action="waitDisappear">
+                <span class="tool-icon">⏳👻</span>
+                <span class="tool-name">Esperar Desaparecer</span>
+            </button>
+            <button class="tool-action-btn" data-action="waitText">
+                <span class="tool-icon">⏳📝</span>
+                <span class="tool-name">Esperar Texto</span>
+            </button>
+            <button class="tool-action-btn" data-action="waitPageLoad">
+                <span class="tool-icon">⏳📄</span>
+                <span class="tool-name">Esperar Carga</span>
+            </button>
+            <button class="tool-action-btn" data-action="wait">
+                <span class="tool-icon">⏱️</span>
+                <span class="tool-name">Espera Fija</span>
+            </button>
+            <button class="tool-action-btn" data-action="waitCondition">
+                <span class="tool-icon">⏳✅</span>
+                <span class="tool-name">Esperar Condición</span>
+            </button>
+        </div>
+        
+        <!-- Avanzado -->
+        <div class="tools-category" data-category="advanced">
+            <button class="tool-action-btn" data-action="screenshot">
+                <span class="tool-icon">📸</span>
+                <span class="tool-name">Screenshot</span>
+            </button>
+            <button class="tool-action-btn" data-action="screenshotElement">
+                <span class="tool-icon">📷</span>
+                <span class="tool-name">Screenshot Elemento</span>
+            </button>
+            <button class="tool-action-btn" data-action="scroll">
+                <span class="tool-icon">📜</span>
+                <span class="tool-name">Scroll</span>
+            </button>
+            <button class="tool-action-btn" data-action="scrollTo">
+                <span class="tool-icon">🎯</span>
+                <span class="tool-name">Scroll a Elemento</span>
+            </button>
+            <button class="tool-action-btn" data-action="switchIframe">
+                <span class="tool-icon">🖼️</span>
+                <span class="tool-name">Cambiar a Iframe</span>
+            </button>
+            <button class="tool-action-btn" data-action="uploadFile">
+                <span class="tool-icon">📤</span>
+                <span class="tool-name">Subir Archivo</span>
+            </button>
+            <button class="tool-action-btn" data-action="downloadFile">
+                <span class="tool-icon">📥</span>
+                <span class="tool-name">Descargar Archivo</span>
+            </button>
+            <button class="tool-action-btn" data-action="executeScript">
+                <span class="tool-icon">💻</span>
+                <span class="tool-name">Ejecutar Script</span>
+            </button>
+            <button class="tool-action-btn" data-action="log">
+                <span class="tool-icon">📋</span>
+                <span class="tool-name">Log/Comentario</span>
+            </button>
+        </div>
+    </div>
+</div>
 
         <!-- Área de visualización/canvas -->
         <div class="visualization-area">
@@ -189,11 +356,14 @@
     <!-- JavaScript Files -->
 <script src="js/utils.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/connections.js"></script>
+<script src="js/actions.js"></script>       
+<script src="js/tool-actions.js"></script>  
 <script src="js/shapes.js"></script>
 <script src="js/config-panel.js"></script>
 <script src="js/drag-drop.js"></script>
 <script src="js/tools.js"></script>
 <script src="js/tabs.js"></script>
 <script src="js/app.js"></script>
-  </body>
+</body>
 </html>

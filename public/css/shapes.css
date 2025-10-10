@@ -231,3 +231,309 @@
   -ms-user-select: text;
   user-select: text;
 }
+
+/* --- Sección de conexiones (reemplazada por solicitud) --- */
+
+/* Bloques de acción - Estilo n8n */
+.action-block {
+  min-width: 200px;
+  max-width: 280px;
+  position: relative;
+}
+
+.action-block-content {
+  background: #3a3a3a;
+  border: 2px solid #555;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.action-block:hover .action-block-content {
+  border-color: #888;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.action-block.selected .action-block-content {
+  border-color: #ff6d5a;
+  box-shadow: 0 0 0 2px rgba(255, 109, 90, 0.3);
+}
+
+.action-block-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.action-block-icon {
+  font-size: 24px;
+}
+
+.action-block-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  flex: 1;
+}
+
+/* Puntos de conexión - Estilo n8n */
+.connection-points {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.connection-point {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #7d7d7d;
+  border: 2px solid #3a3a3a;
+  border-radius: 50%;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+  z-index: 100;
+  opacity: 0;
+}
+
+.action-block:hover .connection-point,
+.connection-point.active,
+.action-block.connecting .connection-point {
+  opacity: 1;
+}
+
+.connection-point:hover {
+  background: #aaa;
+  transform: scale(1.3);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+.connection-point.dragging {
+  background: #10b981;
+  transform: scale(1.5);
+  box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.3);
+}
+
+.connection-point.highlight {
+  background: #10b981;
+  transform: scale(1.4);
+  animation: pulse-point 1s ease-in-out infinite;
+}
+
+@keyframes pulse-point {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+}
+
+/* Posiciones de puntos - Estilo n8n */
+.connection-point.input-main {
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.connection-point.output-main {
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.connection-point.output-top {
+  right: -8px;
+  top: 25%;
+  transform: translateY(-50%);
+}
+
+.connection-point.output-bottom {
+  right: -8px;
+  bottom: 25%;
+  transform: translateY(50%);
+}
+
+/* Canvas de conexiones */
+.connections-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.connections-canvas svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Líneas de conexión - Estilo n8n */
+.connection-line {
+  fill: none;
+  stroke: #999;
+  stroke-width: 2;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.connection-line:hover {
+  stroke: #bbb;
+  stroke-width: 3;
+}
+
+.connection-line.selected {
+  stroke: #10b981;
+  stroke-width: 3;
+}
+
+.connection-line.error {
+  stroke: #ef4444;
+}
+
+.connection-line.success {
+  stroke: #10b981;
+}
+
+/* Círculos en los puntos de conexión */
+.connection-endpoint {
+  fill: #999;
+  pointer-events: none;
+}
+
+.connection-line:hover + .connection-endpoint,
+.connection-endpoint.highlight {
+  fill: #10b981;
+}
+
+.connection-line.selected + .connection-endpoint {
+  fill: #10b981;
+}
+
+/* Línea temporal mientras se arrastra */
+.connection-preview {
+  stroke: #10b981;
+  stroke-width: 2;
+  stroke-dasharray: 5, 5;
+  fill: none;
+  pointer-events: none;
+  animation: dash-flow 0.5s linear infinite;
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* Plus button para agregar conexiones */
+.connection-add-btn {
+  position: absolute;
+  right: -28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: #10b981;
+  border: 2px solid #3a3a3a;
+  border-radius: 50%;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  z-index: 50;
+}
+
+.action-block:hover .connection-add-btn {
+  opacity: 1;
+}
+
+.connection-add-btn:hover {
+  background: #059669;
+  transform: translateY(-50%) scale(1.2);
+}
+
+/* Estado de conexión activa */
+.action-block.connecting {
+  z-index: 1000;
+}
+
+.action-block.connection-source .action-block-content {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.action-block.connection-target .action-block-content {
+  border-color: #10b981;
+  animation: pulse-border 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+}
+
+/* Indicador de arrastre */
+.connection-drag-indicator {
+  position: fixed;
+  background: rgba(16, 185, 129, 0.95);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+/* Delete button en hover de línea */
+.connection-delete-btn {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ef4444;
+  border: 2px solid white;
+  border-radius: 50%;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 200;
+}
+
+.connection-group:hover .connection-delete-btn {
+  opacity: 1;
+}
+
+.connection-delete-btn:hover {
+  background: #dc2626;
+  transform: scale(1.2);
+}

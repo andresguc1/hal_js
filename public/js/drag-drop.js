@@ -61,6 +61,14 @@ function startDrag(e) {
     return;
   }
 
+  // ⬇️ NO INICIAR DRAG SI SE HACE CLICK EN PUNTO DE CONEXIÓN
+  if (target.classList.contains("connection-point")) {
+    return;
+  }
+  if (target.closest(".connection-point")) {
+    return;
+  }
+
   e.preventDefault();
   e.stopPropagation();
 
@@ -76,6 +84,7 @@ function startDrag(e) {
   offsetY = e.clientY - rect.top;
 }
 
+// Manejar movimiento del mouse
 // Manejar movimiento del mouse
 function handleMouseMove(e) {
   if (isDragging && currentElement) {
@@ -100,6 +109,11 @@ function handleMouseMove(e) {
     if (window.app) {
       window.app.updateShapePosition(currentElement.dataset.id, x, y);
     }
+
+    // ⬇️ AGREGAR ESTO
+    if (window.connections?.updateAll) {
+      window.connections.updateAll();
+    }
   }
 }
 
@@ -110,7 +124,35 @@ function handleMouseUp() {
     if (window.app) {
       window.app.saveState();
     }
+
+    // ⬇️ AGREGAR ESTO
+    if (window.connections?.updateAll) {
+      requestAnimationFrame(() => {
+        window.connections.updateAll();
+      });
+    }
   }
+  isDragging = false;
+  currentElement = null;
+}
+
+// Manejar soltar mouse
+function handleMouseUp() {
+  if (currentElement) {
+    currentElement.classList.remove("dragging");
+
+    if (window.app) {
+      window.app.saveState();
+    }
+
+    // ⬇️ ACTUALIZAR CONEXIONES AL SOLTAR
+    if (window.connections?.updateAll) {
+      requestAnimationFrame(() => {
+        window.connections.updateAll();
+      });
+    }
+  }
+
   isDragging = false;
   currentElement = null;
 }

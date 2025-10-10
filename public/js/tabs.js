@@ -528,7 +528,17 @@ function getActiveTab() {
 
 // Obtener workspace activo
 function getActiveWorkspace() {
-  return document.getElementById(`workspace-${activeTabId}`);
+  const activeTab = tabs.find((t) => t.id === activeTabId);
+  if (!activeTab) return null;
+
+  const workspace = document.getElementById(`workspace-${activeTab.id}`);
+  if (workspace) return workspace;
+
+  // Fallback: buscar workspace visible
+  return (
+    document.querySelector(".workspace-content:not(.hidden)") ||
+    document.querySelector(".workspace-content")
+  );
 }
 
 // Obtener todas las pestañas
