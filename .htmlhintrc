@@ -1,0 +1,10 @@
+{
+  "attr-lowercase": true,
+  "attr-value-not-empty": true,
+  "doctype-first": true,
+  "tag-pair": true,
+  "spec-char-escape": true,
+  "id-unique": true,
+  "head-script-disabled": false,
+  "src-not-empty": true
+}

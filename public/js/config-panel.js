@@ -5,16 +5,16 @@ let selectedShapeId = null;
 // Mostrar panel de configuración
 function showConfigPanel(shapeId, shape) {
   selectedShapeId = shapeId;
-  const canvasArea = document.getElementById("canvas");
-  canvasArea.innerHTML = "";
+  const canvasArea = document.getElementById('canvas');
+  canvasArea.innerHTML = '';
 
   let configPanel;
 
   switch (shape.type) {
-    case "oval":
+    case 'oval':
       configPanel = createOvalConfigPanel(shape);
       break;
-    case "rectangle":
+    case 'rectangle':
       configPanel = createRectangleConfigPanel(shape);
       break;
     default:
@@ -26,8 +26,8 @@ function showConfigPanel(shapeId, shape) {
 
 // Crear panel de configuración para Oval (Inicio/Fin)
 function createOvalConfigPanel(shape) {
-  const panel = document.createElement("div");
-  panel.className = "config-panel";
+  const panel = document.createElement('div');
+  panel.className = 'config-panel';
 
   panel.innerHTML = `
         <div class="config-header">
@@ -43,19 +43,17 @@ function createOvalConfigPanel(shape) {
                     <label>Tipo de elemento:</label>
                     <select id="config-subtype" onchange="updateShapeConfig('subtype', this.value)">
                         <option value="inicio" ${
-                          shape.config.subtype === "inicio" ? "selected" : ""
+                          shape.config.subtype === 'inicio' ? 'selected' : ''
                         }>Inicio</option>
                         <option value="fin" ${
-                          shape.config.subtype === "fin" ? "selected" : ""
+                          shape.config.subtype === 'fin' ? 'selected' : ''
                         }>Fin</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
                     <label>Etiqueta:</label>
-                    <input type="text" id="config-text" value="${
-                      shape.config.text
-                    }" 
+                    <input type="text" id="config-text" value="${shape.config.text}" 
                            oninput="updateShapeConfig('text', this.value)" 
                            placeholder="Texto del elemento">
                 </div>
@@ -65,7 +63,7 @@ function createOvalConfigPanel(shape) {
                     <textarea id="config-description" rows="3" 
                               oninput="updateShapeConfig('description', this.value)"
                               placeholder="Descripción opcional...">${
-                                shape.config.description || ""
+                                shape.config.description || ''
                               }</textarea>
                 </div>
             </div>
@@ -75,9 +73,7 @@ function createOvalConfigPanel(shape) {
                 
                 <div class="form-group">
                     <label>Color de fondo:</label>
-                    <input type="color" id="config-color" value="${
-                      shape.config.color
-                    }" 
+                    <input type="color" id="config-color" value="${shape.config.color}" 
                            onchange="updateShapeConfig('color', this.value)">
                 </div>
             </div>
@@ -105,8 +101,8 @@ function createOvalConfigPanel(shape) {
 
 // Crear panel de configuración para Rectangle (Proceso)
 function createRectangleConfigPanel(shape) {
-  const panel = document.createElement("div");
-  panel.className = "config-panel";
+  const panel = document.createElement('div');
+  panel.className = 'config-panel';
 
   panel.innerHTML = `
         <div class="config-header">
@@ -120,9 +116,7 @@ function createRectangleConfigPanel(shape) {
                 
                 <div class="form-group">
                     <label>Nombre de la acción:</label>
-                    <input type="text" id="config-text" value="${
-                      shape.config.text
-                    }" 
+                    <input type="text" id="config-text" value="${shape.config.text}" 
                            oninput="updateShapeConfig('text', this.value)" 
                            placeholder="Nombre del proceso">
                 </div>
@@ -132,7 +126,7 @@ function createRectangleConfigPanel(shape) {
                     <textarea id="config-action" rows="3" 
                               oninput="updateShapeConfig('action', this.value)"
                               placeholder="Describe qué hace este proceso...">${
-                                shape.config.action || ""
+                                shape.config.action || ''
                               }</textarea>
                 </div>
                 
@@ -141,7 +135,7 @@ function createRectangleConfigPanel(shape) {
                     <textarea id="config-description" rows="2" 
                               oninput="updateShapeConfig('description', this.value)"
                               placeholder="Notas opcionales...">${
-                                shape.config.description || ""
+                                shape.config.description || ''
                               }</textarea>
                 </div>
             </div>
@@ -151,9 +145,7 @@ function createRectangleConfigPanel(shape) {
                 
                 <div class="form-group">
                     <label>Color de fondo:</label>
-                    <input type="color" id="config-color" value="${
-                      shape.config.color
-                    }" 
+                    <input type="color" id="config-color" value="${shape.config.color}" 
                            onchange="updateShapeConfig('color', this.value)">
                 </div>
             </div>
@@ -181,8 +173,8 @@ function createRectangleConfigPanel(shape) {
 
 // Crear panel genérico para otros tipos
 function createGenericConfigPanel(shape) {
-  const panel = document.createElement("div");
-  panel.className = "config-panel";
+  const panel = document.createElement('div');
+  panel.className = 'config-panel';
 
   panel.innerHTML = `
         <div class="config-header">
@@ -209,13 +201,13 @@ function createGenericConfigPanel(shape) {
 
 // Cerrar panel de configuración
 function closeConfigPanel() {
-  const canvasArea = document.getElementById("canvas");
+  const canvasArea = document.getElementById('canvas');
   canvasArea.innerHTML =
     '<div class="empty-canvas"><p>Selecciona un elemento para configurarlo</p></div>';
 
   // Remover selección
-  document.querySelectorAll(".action-shape").forEach((s) => {
-    s.classList.remove("selected");
+  document.querySelectorAll('.action-shape').forEach((s) => {
+    s.classList.remove('selected');
   });
 
   selectedShapeId = null;

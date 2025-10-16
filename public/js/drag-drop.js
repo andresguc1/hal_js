@@ -7,34 +7,36 @@ let offsetY = 0;
 
 // Inicializar drag and drop para herramientas
 function initToolsDragDrop() {
-  document.querySelectorAll(".tool-shape").forEach((tool) => {
-    tool.setAttribute("draggable", "true");
+  document.querySelectorAll('.tool-shape').forEach((tool) => {
+    tool.setAttribute('draggable', 'true');
 
-    tool.addEventListener("dragstart", function (e) {
+    tool.addEventListener('dragstart', function (e) {
       const shapeType = this.dataset.shape;
-      e.dataTransfer.setData("shapeType", shapeType);
-      e.dataTransfer.effectAllowed = "copy";
-      this.style.opacity = "0.5";
+      e.dataTransfer.setData('shapeType', shapeType);
+      e.dataTransfer.effectAllowed = 'copy';
+      this.style.opacity = '0.5';
     });
 
-    tool.addEventListener("dragend", function (e) {
-      this.style.opacity = "1";
+    // eliminado parámetro no usado
+    tool.addEventListener('dragend', function () {
+      this.style.opacity = '1';
     });
   });
 }
 
 // Hacer el actions-frame receptivo para drop
 function makeActionsFrameDroppable() {
-  const actionsFrame = document.querySelector(".actions-frame");
+  const actionsFrame = document.querySelector('.actions-frame');
+  if (!actionsFrame) return;
 
-  actionsFrame.addEventListener("dragover", function (e) {
+  actionsFrame.addEventListener('dragover', function (e) {
     e.preventDefault();
-    e.dataTransfer.dropEffect = "copy";
+    e.dataTransfer.dropEffect = 'copy';
   });
 
-  actionsFrame.addEventListener("drop", function (e) {
+  actionsFrame.addEventListener('drop', function (e) {
     e.preventDefault();
-    const shapeType = e.dataTransfer.getData("shapeType");
+    const shapeType = e.dataTransfer.getData('shapeType');
 
     if (shapeType && window.app) {
       const rect = actionsFrame.getBoundingClientRect();
@@ -48,24 +50,24 @@ function makeActionsFrameDroppable() {
 
 // Hacer elemento arrastrable con mouse
 function makeDraggable(element) {
-  element.addEventListener("mousedown", startDrag);
-  element.addEventListener("click", selectShape);
-  element.addEventListener("dblclick", preventDblClick);
+  element.addEventListener('mousedown', startDrag);
+  element.addEventListener('click', selectShape);
+  element.addEventListener('dblclick', preventDblClick);
 }
 
 // Iniciar arrastre
 function startDrag(e) {
   const target = e.target;
 
-  if (target.closest(".action-btn")) {
+  if (target.closest('.action-btn')) {
     return;
   }
 
   // ⬇️ NO INICIAR DRAG SI SE HACE CLICK EN PUNTO DE CONEXIÓN
-  if (target.classList.contains("connection-point")) {
+  if (target.classList.contains('connection-point')) {
     return;
   }
-  if (target.closest(".connection-point")) {
+  if (target.closest('.connection-point')) {
     return;
   }
 
@@ -74,25 +76,20 @@ function startDrag(e) {
 
   isDragging = true;
   currentElement = this;
-  currentElement.classList.add("dragging");
+  currentElement.classList.add('dragging');
 
   const rect = currentElement.getBoundingClientRect();
-  const actionsFrame = document
-    .querySelector(".actions-frame")
-    .getBoundingClientRect();
+  // se eliminó la variable actionsFrame no utilizada
   offsetX = e.clientX - rect.left;
   offsetY = e.clientY - rect.top;
 }
 
 // Manejar movimiento del mouse
-// Manejar movimiento del mouse
 function handleMouseMove(e) {
   if (isDragging && currentElement) {
     e.preventDefault();
 
-    const actionsFrame = document
-      .querySelector(".actions-frame")
-      .getBoundingClientRect();
+    const actionsFrame = document.querySelector('.actions-frame').getBoundingClientRect();
     let x = e.clientX - actionsFrame.left - offsetX;
     let y = e.clientY - actionsFrame.top - offsetY;
 
@@ -103,43 +100,24 @@ function handleMouseMove(e) {
     x = Math.max(10, Math.min(x, maxX));
     y = Math.max(minY, Math.min(y, maxY));
 
-    currentElement.style.left = x + "px";
-    currentElement.style.top = y + "px";
+    currentElement.style.left = x + 'px';
+    currentElement.style.top = y + 'px';
 
     if (window.app) {
       window.app.updateShapePosition(currentElement.dataset.id, x, y);
     }
 
-    // ⬇️ AGREGAR ESTO
+    // ⬇️ ACTUALIZAR CONEXIONES DURANTE EL DRAG
     if (window.connections?.updateAll) {
       window.connections.updateAll();
     }
   }
 }
 
-// Manejar soltar mouse
+// Manejar soltar mouse (única definición)
 function handleMouseUp() {
   if (currentElement) {
-    currentElement.classList.remove("dragging");
-    if (window.app) {
-      window.app.saveState();
-    }
-
-    // ⬇️ AGREGAR ESTO
-    if (window.connections?.updateAll) {
-      requestAnimationFrame(() => {
-        window.connections.updateAll();
-      });
-    }
-  }
-  isDragging = false;
-  currentElement = null;
-}
-
-// Manejar soltar mouse
-function handleMouseUp() {
-  if (currentElement) {
-    currentElement.classList.remove("dragging");
+    currentElement.classList.remove('dragging');
 
     if (window.app) {
       window.app.saveState();
@@ -161,15 +139,15 @@ function handleMouseUp() {
 function selectShape(e) {
   if (isDragging) return;
 
-  if (e.target.closest(".action-btn")) return;
+  if (e.target.closest('.action-btn')) return;
 
   e.stopPropagation();
 
-  document.querySelectorAll(".action-shape").forEach((s) => {
-    s.classList.remove("selected");
+  document.querySelectorAll('.action-shape').forEach((s) => {
+    s.classList.remove('selected');
   });
 
-  this.classList.add("selected");
+  this.classList.add('selected');
 
   if (window.app) {
     window.app.selectShape(this.dataset.id);
@@ -184,8 +162,8 @@ function preventDblClick(e) {
 
 // Inicializar listeners globales
 function initGlobalListeners() {
-  document.addEventListener("mousemove", handleMouseMove);
-  document.addEventListener("mouseup", handleMouseUp);
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
 }
 
 // Exportar funciones

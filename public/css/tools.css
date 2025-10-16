@@ -172,7 +172,7 @@
 
 /* Indicador de categoría vacía */
 .tools-category:empty::after {
-  content: "No hay acciones disponibles";
+  content: 'No hay acciones disponibles';
   display: block;
   text-align: center;
   color: #999;

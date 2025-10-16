@@ -2,13 +2,13 @@
 
 // Mostrar notificación temporal
 function showNotification(message, isError = false) {
-  const notification = document.createElement("div");
+  const notification = document.createElement('div');
   notification.textContent = message;
   notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${isError ? "#f44336" : "#4CAF50"};
+        background: ${isError ? '#f44336' : '#4CAF50'};
         color: white;
         padding: 16px 24px;
         border-radius: 8px;
@@ -19,7 +19,7 @@ function showNotification(message, isError = false) {
         animation: slideIn 0.3s ease;
     `;
 
-  const style = document.createElement("style");
+  const style = document.createElement('style');
   style.textContent = `
         @keyframes slideIn {
             from {
@@ -37,7 +37,7 @@ function showNotification(message, isError = false) {
   document.body.appendChild(notification);
 
   setTimeout(() => {
-    notification.style.animation = "slideIn 0.3s ease reverse";
+    notification.style.animation = 'slideIn 0.3s ease reverse';
     setTimeout(() => {
       notification.remove();
       style.remove();
@@ -68,7 +68,7 @@ function isValidUrl(url) {
 
 // Sanitizar texto
 function sanitizeText(text) {
-  const div = document.createElement("div");
+  const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
 }

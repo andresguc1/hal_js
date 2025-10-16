@@ -11,7 +11,7 @@ function initTabs() {
   // Crear pestaña inicial en modelo
   const initialTab = {
     id: 0,
-    name: "Proyecto 1",
+    name: 'Proyecto 1',
     shapes: [],
     counter: 0,
   };
@@ -21,18 +21,17 @@ function initTabs() {
   idCounter = 1; // próximo id libre
 
   // Crear DOM para la pestaña inicial y su workspace
-  const tabsList = document.getElementById("tabsList");
-  const workspaceContainer = document.querySelector(".workspace-container");
+  const tabsList = document.getElementById('tabsList');
+  const workspaceContainer = document.querySelector('.workspace-container');
 
   // Limpiar por si acaso
-  if (tabsList) tabsList.innerHTML = "";
-  if (workspaceContainer) workspaceContainer.innerHTML = "";
+  if (tabsList) tabsList.innerHTML = '';
+  if (workspaceContainer) workspaceContainer.innerHTML = '';
 
-  if (tabsList)
-    tabsList.appendChild(createTabElement(initialTab.id, initialTab.name));
+  if (tabsList) tabsList.appendChild(createTabElement(initialTab.id, initialTab.name));
   if (workspaceContainer) {
-    const workspace = document.createElement("div");
-    workspace.className = "workspace-content";
+    const workspace = document.createElement('div');
+    workspace.className = 'workspace-content';
     workspace.id = `workspace-${initialTab.id}`;
     workspace.dataset.tabId = initialTab.id;
     workspaceContainer.appendChild(workspace);
@@ -42,11 +41,11 @@ function initTabs() {
   setActiveTabClass(initialTab.id);
 
   // Agregar listener para cerrar menú contextual al hacer clic fuera
-  document.addEventListener("click", closeContextMenu);
+  document.addEventListener('click', closeContextMenu);
 
   // Prevenir menú contextual del navegador en pestañas
-  document.addEventListener("contextmenu", (e) => {
-    if (e.target.closest(".tab")) {
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target.closest('.tab')) {
       e.preventDefault();
     }
   });
@@ -66,7 +65,7 @@ function addNewTab() {
   tabs.push(newTab);
 
   // Crear elemento de pestaña en el DOM
-  const tabsList = document.getElementById("tabsList");
+  const tabsList = document.getElementById('tabsList');
   const tabElement = createTabElement(newTabId, newTabName);
 
   if (tabsList) {
@@ -76,10 +75,10 @@ function addNewTab() {
   }
 
   // Crear workspace para esta pestaña
-  const workspaceContainer = document.querySelector(".workspace-container");
+  const workspaceContainer = document.querySelector('.workspace-container');
   if (workspaceContainer) {
-    const workspace = document.createElement("div");
-    workspace.className = "workspace-content hidden";
+    const workspace = document.createElement('div');
+    workspace.className = 'workspace-content hidden';
     workspace.id = `workspace-${newTabId}`;
     workspace.dataset.tabId = newTabId;
     workspaceContainer.appendChild(workspace);
@@ -88,46 +87,47 @@ function addNewTab() {
   // Cambiar a la nueva pestaña
   switchTab(newTabId);
 
-  showNotification("Nueva pestaña creada");
+  if (typeof window.showNotification === 'function') {
+    window.showNotification('Nueva pestaña creada');
+  }
 }
 
 // Crear elemento de pestaña
 function createTabElement(tabId, tabName) {
-  const tabElement = document.createElement("div");
-  tabElement.className = "tab";
+  const tabElement = document.createElement('div');
+  tabElement.className = 'tab';
   tabElement.dataset.tabId = tabId;
 
-  const tabNameSpan = document.createElement("span");
-  tabNameSpan.className = "tab-name";
+  const tabNameSpan = document.createElement('span');
+  tabNameSpan.className = 'tab-name';
   tabNameSpan.textContent = tabName;
-  tabNameSpan.title =
-    "Click para cambiar, doble click para renombrar, click derecho para opciones";
+  tabNameSpan.title = 'Click para cambiar, doble click para renombrar, click derecho para opciones';
 
   // Click simple - cambiar de pestaña
-  tabNameSpan.addEventListener("click", (e) => {
+  tabNameSpan.addEventListener('click', (e) => {
     e.stopPropagation();
     switchTab(tabId);
   });
 
   // Doble click - editar nombre
-  tabNameSpan.addEventListener("dblclick", (e) => {
+  tabNameSpan.addEventListener('dblclick', (e) => {
     e.stopPropagation();
     startEditingTabName(tabId, tabNameSpan);
   });
 
   // Click derecho - menú contextual en todo el elemento
-  tabElement.addEventListener("contextmenu", (e) => {
+  tabElement.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     e.stopPropagation();
     showTabContextMenu(e, tabId);
   });
 
-  const closeBtn = document.createElement("button");
-  closeBtn.className = "tab-close";
-  closeBtn.type = "button";
-  closeBtn.textContent = "×";
-  closeBtn.title = "Cerrar pestaña";
-  closeBtn.addEventListener("click", (e) => {
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'tab-close';
+  closeBtn.type = 'button';
+  closeBtn.textContent = '×';
+  closeBtn.title = 'Cerrar pestaña';
+  closeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     closeTab(tabId);
   });
@@ -140,16 +140,16 @@ function createTabElement(tabId, tabName) {
 
 // Util: marcar visualmente la pestaña activa
 function setActiveTabClass(tabId) {
-  document.querySelectorAll(".tab").forEach((tab) => {
+  document.querySelectorAll('.tab').forEach((tab) => {
     if (parseInt(tab.dataset.tabId, 10) === tabId) {
-      tab.classList.add("active");
+      tab.classList.add('active');
       tab.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
       });
     } else {
-      tab.classList.remove("active");
+      tab.classList.remove('active');
     }
   });
 }
@@ -157,9 +157,9 @@ function setActiveTabClass(tabId) {
 // Iniciar edición de nombre de pestaña
 function startEditingTabName(tabId, tabNameElement) {
   const currentName = tabNameElement.textContent;
-  const input = document.createElement("input");
-  input.type = "text";
-  input.className = "tab-name-input";
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'tab-name-input';
   input.value = currentName;
 
   // Reemplazar el span con el input
@@ -173,18 +173,17 @@ function startEditingTabName(tabId, tabNameElement) {
     renameTab(tabId, newName);
 
     // Recrear el span
-    const newSpan = document.createElement("span");
-    newSpan.className = "tab-name";
+    const newSpan = document.createElement('span');
+    newSpan.className = 'tab-name';
     newSpan.textContent = newName;
-    newSpan.title =
-      "Click para cambiar, doble click para renombrar, click derecho para opciones";
+    newSpan.title = 'Click para cambiar, doble click para renombrar, click derecho para opciones';
 
-    newSpan.addEventListener("click", (e) => {
+    newSpan.addEventListener('click', (e) => {
       e.stopPropagation();
       switchTab(tabId);
     });
 
-    newSpan.addEventListener("dblclick", (e) => {
+    newSpan.addEventListener('dblclick', (e) => {
       e.stopPropagation();
       startEditingTabName(tabId, newSpan);
     });
@@ -192,23 +191,22 @@ function startEditingTabName(tabId, tabNameElement) {
     input.replaceWith(newSpan);
   };
 
-  input.addEventListener("blur", saveEdit);
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
+  input.addEventListener('blur', saveEdit);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
       saveEdit();
-    } else if (e.key === "Escape") {
-      const newSpan = document.createElement("span");
-      newSpan.className = "tab-name";
+    } else if (e.key === 'Escape') {
+      const newSpan = document.createElement('span');
+      newSpan.className = 'tab-name';
       newSpan.textContent = currentName;
-      newSpan.title =
-        "Click para cambiar, doble click para renombrar, click derecho para opciones";
+      newSpan.title = 'Click para cambiar, doble click para renombrar, click derecho para opciones';
 
-      newSpan.addEventListener("click", (e) => {
+      newSpan.addEventListener('click', (e) => {
         e.stopPropagation();
         switchTab(tabId);
       });
 
-      newSpan.addEventListener("dblclick", (e) => {
+      newSpan.addEventListener('dblclick', (e) => {
         e.stopPropagation();
         startEditingTabName(tabId, newSpan);
       });
@@ -222,22 +220,20 @@ function startEditingTabName(tabId, tabNameElement) {
 function showTabContextMenu(event, tabId) {
   closeContextMenu();
 
-  const menu = document.createElement("div");
-  menu.className = "tab-context-menu";
-  menu.style.left = event.pageX + "px";
-  menu.style.top = event.pageY + "px";
+  const menu = document.createElement('div');
+  menu.className = 'tab-context-menu';
+  menu.style.left = event.pageX + 'px';
+  menu.style.top = event.pageY + 'px';
 
-  const tab = tabs.find((t) => t.id === tabId);
+  // const tab = tabs.find((t) => t.id === tabId); // eliminado variable no usada
 
   // Opción: Renombrar
-  const renameItem = document.createElement("div");
-  renameItem.className = "tab-context-menu-item";
-  renameItem.innerHTML = "<span>✏️</span><span>Renombrar</span>";
-  renameItem.addEventListener("click", () => {
+  const renameItem = document.createElement('div');
+  renameItem.className = 'tab-context-menu-item';
+  renameItem.innerHTML = '<span>✏️</span><span>Renombrar</span>';
+  renameItem.addEventListener('click', () => {
     closeContextMenu();
-    const tabNameElement = document.querySelector(
-      `.tab[data-tab-id="${tabId}"] .tab-name`
-    );
+    const tabNameElement = document.querySelector(`.tab[data-tab-id="${tabId}"] .tab-name`);
     if (tabNameElement) {
       startEditingTabName(tabId, tabNameElement);
     }
@@ -245,26 +241,26 @@ function showTabContextMenu(event, tabId) {
   menu.appendChild(renameItem);
 
   // Opción: Duplicar
-  const duplicateItem = document.createElement("div");
-  duplicateItem.className = "tab-context-menu-item";
-  duplicateItem.innerHTML = "<span>📋</span><span>Duplicar</span>";
-  duplicateItem.addEventListener("click", () => {
+  const duplicateItem = document.createElement('div');
+  duplicateItem.className = 'tab-context-menu-item';
+  duplicateItem.innerHTML = '<span>📋</span><span>Duplicar</span>';
+  duplicateItem.addEventListener('click', () => {
     closeContextMenu();
     duplicateTab(tabId);
   });
   menu.appendChild(duplicateItem);
 
   // Separador
-  const separator1 = document.createElement("div");
-  separator1.className = "tab-context-menu-separator";
+  const separator1 = document.createElement('div');
+  separator1.className = 'tab-context-menu-separator';
   menu.appendChild(separator1);
 
   // Opción: Cambiar a esta pestaña
   if (tabId !== activeTabId) {
-    const switchItem = document.createElement("div");
-    switchItem.className = "tab-context-menu-item";
-    switchItem.innerHTML = "<span>👉</span><span>Ir a esta pestaña</span>";
-    switchItem.addEventListener("click", () => {
+    const switchItem = document.createElement('div');
+    switchItem.className = 'tab-context-menu-item';
+    switchItem.innerHTML = '<span>👉</span><span>Ir a esta pestaña</span>';
+    switchItem.addEventListener('click', () => {
       closeContextMenu();
       switchTab(tabId);
     });
@@ -272,16 +268,16 @@ function showTabContextMenu(event, tabId) {
   }
 
   // Separador
-  const separator2 = document.createElement("div");
-  separator2.className = "tab-context-menu-separator";
+  const separator2 = document.createElement('div');
+  separator2.className = 'tab-context-menu-separator';
   menu.appendChild(separator2);
 
   // Opción: Cerrar (solo si hay más de una pestaña)
   if (tabs.length > 1) {
-    const closeItem = document.createElement("div");
-    closeItem.className = "tab-context-menu-item danger";
-    closeItem.innerHTML = "<span>✕</span><span>Cerrar pestaña</span>";
-    closeItem.addEventListener("click", () => {
+    const closeItem = document.createElement('div');
+    closeItem.className = 'tab-context-menu-item danger';
+    closeItem.innerHTML = '<span>✕</span><span>Cerrar pestaña</span>';
+    closeItem.addEventListener('click', () => {
       closeContextMenu();
       closeTab(tabId);
     });
@@ -290,10 +286,10 @@ function showTabContextMenu(event, tabId) {
 
   // Opción: Cerrar otras pestañas
   if (tabs.length > 1) {
-    const closeOthersItem = document.createElement("div");
-    closeOthersItem.className = "tab-context-menu-item danger";
-    closeOthersItem.innerHTML = "<span>✕✕</span><span>Cerrar otras</span>";
-    closeOthersItem.addEventListener("click", () => {
+    const closeOthersItem = document.createElement('div');
+    closeOthersItem.className = 'tab-context-menu-item danger';
+    closeOthersItem.innerHTML = '<span>✕✕</span><span>Cerrar otras</span>';
+    closeOthersItem.addEventListener('click', () => {
       closeContextMenu();
       closeOtherTabs(tabId);
     });
@@ -306,10 +302,10 @@ function showTabContextMenu(event, tabId) {
   // Ajustar posición si se sale de la ventana
   const menuRect = menu.getBoundingClientRect();
   if (menuRect.right > window.innerWidth) {
-    menu.style.left = event.pageX - menuRect.width + "px";
+    menu.style.left = event.pageX - menuRect.width + 'px';
   }
   if (menuRect.bottom > window.innerHeight) {
-    menu.style.top = event.pageY - menuRect.height + "px";
+    menu.style.top = event.pageY - menuRect.height + 'px';
   }
 }
 
@@ -335,11 +331,11 @@ function switchTab(tabId) {
   setActiveTabClass(tabId);
 
   // Mostrar workspace correspondiente
-  document.querySelectorAll(".workspace-content").forEach((workspace) => {
+  document.querySelectorAll('.workspace-content').forEach((workspace) => {
     if (parseInt(workspace.dataset.tabId, 10) === tabId) {
-      workspace.classList.remove("hidden");
+      workspace.classList.remove('hidden');
     } else {
-      workspace.classList.add("hidden");
+      workspace.classList.add('hidden');
     }
   });
 
@@ -356,7 +352,9 @@ function switchTab(tabId) {
 function closeTab(tabId) {
   // No permitir cerrar si es la única pestaña
   if (tabs.length === 1) {
-    showNotification("Debe existir al menos una pestaña", true);
+    if (typeof window.showNotification === 'function') {
+      window.showNotification('Debe existir al menos una pestaña', true);
+    }
     return;
   }
 
@@ -366,8 +364,8 @@ function closeTab(tabId) {
   const hasContent = tab && tab.shapes && tab.shapes.length > 0;
 
   const message = hasContent
-    ? "¿Cerrar esta pestaña? Se perderán los cambios no guardados."
-    : "¿Cerrar esta pestaña?";
+    ? '¿Cerrar esta pestaña? Se perderán los cambios no guardados.'
+    : '¿Cerrar esta pestaña?';
 
   if (!confirm(message)) return;
 
@@ -398,17 +396,14 @@ function closeTab(tabId) {
     }
   }
 
-  showNotification("Pestaña cerrada");
+  if (typeof window.showNotification === 'function') {
+    window.showNotification('Pestaña cerrada');
+  }
 }
 
 // Cerrar otras pestañas
 function closeOtherTabs(keepTabId) {
-  if (
-    !confirm(
-      "¿Cerrar todas las demás pestañas? Se perderán los cambios no guardados."
-    )
-  )
-    return;
+  if (!confirm('¿Cerrar todas las demás pestañas? Se perderán los cambios no guardados.')) return;
 
   const tabsToClose = tabs.filter((t) => t.id !== keepTabId);
 
@@ -424,7 +419,9 @@ function closeOtherTabs(keepTabId) {
   // Asegurarse de que esté activa
   switchTab(keepTabId);
 
-  showNotification("Pestañas cerradas");
+  if (typeof window.showNotification === 'function') {
+    window.showNotification('Pestañas cerradas');
+  }
 }
 
 // Duplicar pestaña
@@ -435,7 +432,7 @@ function duplicateTab(tabId) {
   const newTabId = idCounter++;
   const newTab = {
     id: newTabId,
-    name: originalTab.name + " (copia)",
+    name: originalTab.name + ' (copia)',
     shapes: JSON.parse(JSON.stringify(originalTab.shapes || [])), // Copia profunda
     counter: originalTab.counter || 0,
   };
@@ -445,12 +442,10 @@ function duplicateTab(tabId) {
   tabs.splice(insertIndex, 0, newTab);
 
   // Crear elemento de pestaña en el DOM
-  const tabsList = document.getElementById("tabsList");
+  const tabsList = document.getElementById('tabsList');
   const tabElement = createTabElement(newTabId, newTab.name);
 
-  const originalElement = document.querySelector(
-    `.tab[data-tab-id="${tabId}"]`
-  );
+  const originalElement = document.querySelector(`.tab[data-tab-id="${tabId}"]`);
   if (originalElement && originalElement.nextSibling && tabsList) {
     tabsList.insertBefore(tabElement, originalElement.nextSibling);
   } else if (tabsList) {
@@ -458,10 +453,10 @@ function duplicateTab(tabId) {
   }
 
   // Crear workspace para esta pestaña
-  const workspaceContainer = document.querySelector(".workspace-container");
+  const workspaceContainer = document.querySelector('.workspace-container');
   if (workspaceContainer) {
-    const workspace = document.createElement("div");
-    workspace.className = "workspace-content hidden";
+    const workspace = document.createElement('div');
+    workspace.className = 'workspace-content hidden';
     workspace.id = `workspace-${newTabId}`;
     workspace.dataset.tabId = newTabId;
     workspaceContainer.appendChild(workspace);
@@ -470,7 +465,9 @@ function duplicateTab(tabId) {
   // Cambiar a la nueva pestaña
   switchTab(newTabId);
 
-  showNotification("Pestaña duplicada");
+  if (typeof window.showNotification === 'function') {
+    window.showNotification('Pestaña duplicada');
+  }
 }
 
 // Renombrar pestaña (modelo + DOM)
@@ -479,11 +476,11 @@ function renameTab(tabId, newName) {
   if (tab) {
     tab.name = newName;
     // Actualizar DOM si existe
-    const tabNameElement = document.querySelector(
-      `.tab[data-tab-id="${tabId}"] .tab-name`
-    );
+    const tabNameElement = document.querySelector(`.tab[data-tab-id="${tabId}"] .tab-name`);
     if (tabNameElement) tabNameElement.textContent = newName;
-    showNotification("Pestaña renombrada");
+    if (typeof window.showNotification === 'function') {
+      window.showNotification('Pestaña renombrada');
+    }
   }
 }
 
@@ -491,9 +488,7 @@ function renameTab(tabId, newName) {
 function saveCurrentTabState() {
   const currentTab = tabs.find((t) => t.id === activeTabId);
   if (currentTab && window.app) {
-    currentTab.shapes = JSON.parse(
-      JSON.stringify(window.app.actionsShapes || [])
-    );
+    currentTab.shapes = JSON.parse(JSON.stringify(window.app.actionsShapes || []));
     currentTab.counter = window.app.actionsCounter || 0;
   }
 }
@@ -506,7 +501,7 @@ function loadTabState(tabId) {
   // Limpiar workspace actual
   const workspace = document.getElementById(`workspace-${tabId}`);
   if (workspace) {
-    workspace.innerHTML = "";
+    workspace.innerHTML = '';
   }
 
   // Cargar datos de la pestaña
@@ -515,7 +510,7 @@ function loadTabState(tabId) {
 
   // Recrear formas en el workspace
   (tab.shapes || []).forEach((shapeData) => {
-    if (typeof window.app.recreateShapeInWorkspace === "function") {
+    if (typeof window.app.recreateShapeInWorkspace === 'function') {
       window.app.recreateShapeInWorkspace(shapeData, tabId);
     }
   });
@@ -536,8 +531,8 @@ function getActiveWorkspace() {
 
   // Fallback: buscar workspace visible
   return (
-    document.querySelector(".workspace-content:not(.hidden)") ||
-    document.querySelector(".workspace-content")
+    document.querySelector('.workspace-content:not(.hidden)') ||
+    document.querySelector('.workspace-content')
   );
 }
 
@@ -548,9 +543,9 @@ function getAllTabs() {
 
 // Navegación con teclado
 function setupKeyboardNavigation() {
-  document.addEventListener("keydown", (e) => {
+  document.addEventListener('keydown', (e) => {
     // Ctrl/Cmd + Tab - siguiente pestaña
-    if ((e.ctrlKey || e.metaKey) && e.key === "Tab" && !e.shiftKey) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Tab' && !e.shiftKey) {
       e.preventDefault();
       const currentIndex = tabs.findIndex((t) => t.id === activeTabId);
       const nextIndex = (currentIndex + 1) % tabs.length;
@@ -558,7 +553,7 @@ function setupKeyboardNavigation() {
     }
 
     // Ctrl/Cmd + Shift + Tab - pestaña anterior
-    if ((e.ctrlKey || e.metaKey) && e.key === "Tab" && e.shiftKey) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Tab' && e.shiftKey) {
       e.preventDefault();
       const currentIndex = tabs.findIndex((t) => t.id === activeTabId);
       const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
@@ -566,13 +561,13 @@ function setupKeyboardNavigation() {
     }
 
     // Ctrl/Cmd + T - nueva pestaña
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "t") {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 't') {
       e.preventDefault();
       addNewTab();
     }
 
     // Ctrl/Cmd + W - cerrar pestaña actual
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "w") {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'w') {
       e.preventDefault();
       if (tabs.length > 1) {
         closeTab(activeTabId);
@@ -586,28 +581,30 @@ function exportAllTabs() {
   saveCurrentTabState();
 
   const exportData = {
-    version: "1.0",
+    version: '1.0',
     timestamp: Date.now(),
     tabs: tabs,
   };
 
   const dataStr = JSON.stringify(exportData, null, 2);
-  const dataBlob = new Blob([dataStr], { type: "application/json" });
+  const dataBlob = new Blob([dataStr], { type: 'application/json' });
   const url = URL.createObjectURL(dataBlob);
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.href = url;
-  link.download = "proyecto_completo_" + Date.now() + ".json";
+  link.download = 'proyecto_completo_' + Date.now() + '.json';
   link.click();
   URL.revokeObjectURL(url);
 
-  showNotification("Proyecto completo exportado");
+  if (typeof window.showNotification === 'function') {
+    window.showNotification('Proyecto completo exportado');
+  }
 }
 
 // Importar todas las pestañas
 function importAllTabs(callback) {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".json";
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
 
   input.onchange = function (e) {
     const file = e.target.files[0];
@@ -619,10 +616,8 @@ function importAllTabs(callback) {
 
         if (data.tabs && Array.isArray(data.tabs)) {
           // Limpiar pestañas actuales
-          document.querySelectorAll(".tab").forEach((tab) => tab.remove());
-          document
-            .querySelectorAll(".workspace-content")
-            .forEach((ws) => ws.remove());
+          document.querySelectorAll('.tab').forEach((tab) => tab.remove());
+          document.querySelectorAll('.workspace-content').forEach((ws) => ws.remove());
 
           tabs = data.tabs.map((t) => ({
             id: t.id,
@@ -637,10 +632,8 @@ function importAllTabs(callback) {
           tabCounter = Math.max(tabCounter, tabs.length + 1);
 
           // Recrear pestañas en el DOM
-          const tabsList = document.getElementById("tabsList");
-          const workspaceContainer = document.querySelector(
-            ".workspace-container"
-          );
+          const tabsList = document.getElementById('tabsList');
+          const workspaceContainer = document.querySelector('.workspace-container');
 
           tabs.forEach((tab) => {
             // Crear pestaña
@@ -649,8 +642,8 @@ function importAllTabs(callback) {
 
             // Crear workspace
             if (workspaceContainer) {
-              const workspace = document.createElement("div");
-              workspace.className = "workspace-content hidden";
+              const workspace = document.createElement('div');
+              workspace.className = 'workspace-content hidden';
               workspace.id = `workspace-${tab.id}`;
               workspace.dataset.tabId = tab.id;
               workspaceContainer.appendChild(workspace);
@@ -665,13 +658,17 @@ function importAllTabs(callback) {
             initTabs();
           }
 
-          showNotification("Proyecto completo importado");
+          if (typeof window.showNotification === 'function') {
+            window.showNotification('Proyecto completo importado');
+          }
           if (callback) callback(null);
         } else {
-          throw new Error("Formato de archivo inválido");
+          throw new Error('Formato de archivo inválido');
         }
       } catch (error) {
-        showNotification("Error al cargar el proyecto", true);
+        if (typeof window.showNotification === 'function') {
+          window.showNotification('Error al cargar el proyecto', true);
+        }
         if (callback) callback(error);
       }
     };

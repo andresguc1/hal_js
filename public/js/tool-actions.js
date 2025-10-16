@@ -1,50 +1,56 @@
 // Gestión de acciones de testing en el panel de herramientas
 
-let currentCategory = "navigation";
+let currentCategory = 'navigation';
 
 // Cambiar categoría de herramientas
 function switchToolCategory(category) {
   currentCategory = category;
 
   // Actualizar pestañas
-  document.querySelectorAll(".tools-tab").forEach((tab) => {
+  document.querySelectorAll('.tools-tab').forEach((tab) => {
     if (tab.dataset.category === category) {
-      tab.classList.add("active");
+      tab.classList.add('active');
     } else {
-      tab.classList.remove("active");
+      tab.classList.remove('active');
     }
   });
 
   // Actualizar contenido
-  document.querySelectorAll(".tools-category").forEach((content) => {
+  document.querySelectorAll('.tools-category').forEach((content) => {
     if (content.dataset.category === category) {
-      content.classList.add("active");
+      content.classList.add('active');
     } else {
-      content.classList.remove("active");
+      content.classList.remove('active');
     }
   });
 }
 
+// Getter para evitar warning de variable no usada
+function getCurrentCategory() {
+  return currentCategory;
+}
+
 // Inicializar listeners de acciones
 function setupActionListeners() {
-  document.querySelectorAll(".tool-action-btn").forEach((btn) => {
-    btn.addEventListener("click", function () {
+  document.querySelectorAll('.tool-action-btn').forEach((btn) => {
+    btn.addEventListener('click', function () {
       const actionType = this.dataset.action;
       addActionToWorkspace(actionType);
     });
 
     // Drag and drop
-    btn.setAttribute("draggable", "true");
+    btn.setAttribute('draggable', 'true');
 
-    btn.addEventListener("dragstart", function (e) {
+    btn.addEventListener('dragstart', function (e) {
       const actionType = this.dataset.action;
-      e.dataTransfer.setData("actionType", actionType);
-      e.dataTransfer.effectAllowed = "copy";
-      this.style.opacity = "0.5";
+      e.dataTransfer.setData('actionType', actionType);
+      e.dataTransfer.effectAllowed = 'copy';
+      this.style.opacity = '0.5';
     });
 
-    btn.addEventListener("dragend", function (e) {
-      this.style.opacity = "1";
+    // eliminar parámetro no usado
+    btn.addEventListener('dragend', function () {
+      this.style.opacity = '1';
     });
   });
 }
@@ -53,7 +59,11 @@ function setupActionListeners() {
 function addActionToWorkspace(actionType) {
   const actionDef = window.TestActions[actionType];
   if (!actionDef) {
-    showNotification("Acción no encontrada", true);
+    if (typeof window.showNotification === 'function') {
+      window.showNotification('Acción no encontrada', true);
+    } else {
+      console.warn('Acción no encontrada:', actionType);
+    }
     return;
   }
 
@@ -73,7 +83,7 @@ function getDefaultActionConfig(actionDef) {
   // Agregar parámetros con valores por defecto
   Object.keys(actionDef.params).forEach((paramName) => {
     const param = actionDef.params[paramName];
-    config[paramName] = param.default || "";
+    config[paramName] = param.default || '';
   });
 
   return config;
@@ -82,7 +92,7 @@ function getDefaultActionConfig(actionDef) {
 // Validar configuración de acción
 function validateActionConfig(actionType, config) {
   const actionDef = window.TestActions[actionType];
-  if (!actionDef) return { valid: false, errors: ["Acción no encontrada"] };
+  if (!actionDef) return { valid: false, errors: ['Acción no encontrada'] };
 
   const errors = [];
 
@@ -90,7 +100,7 @@ function validateActionConfig(actionType, config) {
     const param = actionDef.params[paramName];
     const value = config[paramName];
 
-    if (param.required && (!value || value.toString().trim() === "")) {
+    if (param.required && (!value || value.toString().trim() === '')) {
       errors.push(`El campo "${param.label}" es obligatorio`);
     }
   });
@@ -108,6 +118,7 @@ window.toolActions = {
   addToWorkspace: addActionToWorkspace,
   getDefaultConfig: getDefaultActionConfig,
   validateConfig: validateActionConfig,
+  getCurrentCategory, // exportado para uso/lectura externa
 };
 
 // Funciones globales para HTML

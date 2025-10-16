@@ -1,11 +1,12 @@
-# === Linux ===
+# === Sistema Operativo ===
+# Linux
 *~
 .fuse_hidden*
 .directory
 .Trash-*
 .nfs*
 
-# === macOS ===
+# macOS
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -25,7 +26,7 @@ Temporary Items
 .apdisk
 *.icloud
 
-# === Windows ===
+# Windows
 Thumbs.db
 Thumbs.db:encryptable
 ehthumbs.db
@@ -40,68 +41,85 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 
-# === Node.js & JS Tools ===
-logs
-*.log
+
+# === Node.js / JavaScript ===
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 lerna-debug.log*
 .pnpm-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-pids
-*.pid
-*.seed
-*.pid.lock
-lib-cov
-coverage
+
+# Build & Coverage
+build/
+dist/
+coverage/
+lib-cov/
 *.lcov
-.nyc_output
-.grunt
-bower_components
-.lock-wscript
-build/Release
-node_modules/
-jspm_packages/
-web_modules/
-*.tsbuildinfo
-.npm
+.nyc_output/
+.rpt2_cache/
+.rts2_cache_*/
 .eslintcache
 .stylelintcache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-.node_repl_history
-*.tgz
-.yarn-integrity
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
-.cache
-.parcel-cache
-.next
-out
-.nuxt
-dist
+
+# Lock & Cache
 .cache/
-.vuepress/dist
-.temp
-.docusaurus
-.serverless/
-.fusebox/
-.dynamodb/
-.tern-port
-.vscode-test
-.yarn/cache
-.yarn/unplugged
+.parcel-cache/
+.yarn-integrity
+.yarn/cache/
+.yarn/unplugged/
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# TypeScript (si se usa en el futuro)
+*.tsbuildinfo
+
+# === Entornos ===
+.env
+.env.local
+.env.*.local
+
+# === IDE / Editores ===
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# === Documentación y Estáticos ===
+.vuepress/dist
+.docusaurus/
+.temp/
+.next/
+out/
+.nuxt/
 .webpack/
-.svelte-kit
+.svelte-kit/
+.serverless/
+.dynamodb/
+public/dist/
+public/build/
+
+# === Husky / Lint-Staged ===
+.husky/_/
+.husky/*.log
+
+# === Logs y PID ===
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
 
 # === Otros ===
-# Añade aquí reglas específicas de tu proyecto si es necesario
+node_repl_history
+*.tgz
+.lock-wscript
+.yarn-integrity
+.vscode-test
+tmp/
+temp/
+# Personaliza aquí si agregas más directorios

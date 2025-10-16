@@ -14,14 +14,14 @@ function getActiveWorkspace() {
       const workspace = window.tabs.getActiveWorkspace();
       if (workspace) return workspace;
     } catch (e) {
-      console.warn("Error al obtener workspace desde tabs:", e);
+      console.warn('Error al obtener workspace desde tabs:', e);
     }
   }
 
   // Fallback: buscar workspace directamente
   return (
-    document.querySelector(".workspace-content:not(.hidden)") ||
-    document.querySelector(".workspace-content")
+    document.querySelector('.workspace-content:not(.hidden)') ||
+    document.querySelector('.workspace-content')
   );
 }
 
@@ -33,74 +33,74 @@ function initConnections() {
   connectionDragStart = null;
 
   // Verificar que existan workspaces primero
-  const workspaces = document.querySelectorAll(".workspace-content");
+  const workspaces = document.querySelectorAll('.workspace-content');
   if (workspaces.length === 0) {
-    console.warn("⚠️ No hay workspaces todavía. Esperando...");
+    console.warn('⚠️ No hay workspaces todavía. Esperando...');
     setTimeout(initConnections, 100);
     return;
   }
 
   createConnectionsCanvas();
 
-  document.addEventListener("mousemove", handleConnectionDrag);
-  document.addEventListener("mouseup", handleConnectionMouseUp);
-  document.addEventListener("keydown", handleConnectionKeyboard);
+  document.addEventListener('mousemove', handleConnectionDrag);
+  document.addEventListener('mouseup', handleConnectionMouseUp);
+  document.addEventListener('keydown', handleConnectionKeyboard);
 
-  console.log("✅ Sistema de conexiones inicializado");
+  console.log('✅ Sistema de conexiones inicializado');
 }
 
 // Crear canvas SVG
 function createConnectionsCanvas() {
-  const workspaces = document.querySelectorAll(".workspace-content");
+  const workspaces = document.querySelectorAll('.workspace-content');
 
   if (workspaces.length === 0) {
-    console.warn("⚠️ No se encontraron workspaces");
+    console.warn('⚠️ No se encontraron workspaces');
     return;
   }
 
   workspaces.forEach((workspace) => {
-    if (!workspace.querySelector(".connections-canvas")) {
-      const canvas = document.createElement("div");
-      canvas.className = "connections-canvas";
+    if (!workspace.querySelector('.connections-canvas')) {
+      const canvas = document.createElement('div');
+      canvas.className = 'connections-canvas';
 
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      svg.setAttribute("width", "100%");
-      svg.setAttribute("height", "100%");
-      svg.style.overflow = "visible";
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '100%');
+      svg.style.overflow = 'visible';
 
       canvas.appendChild(svg);
       workspace.insertBefore(canvas, workspace.firstChild);
 
-      console.log("✅ Canvas SVG creado en:", workspace.id);
+      console.log('✅ Canvas SVG creado en:', workspace.id);
     }
   });
 }
 
 // Agregar puntos de conexión a un bloque
 function addConnectionPoints(blockElement) {
-  if (blockElement.querySelector(".connection-points")) {
+  if (blockElement.querySelector('.connection-points')) {
     return;
   }
 
-  const points = document.createElement("div");
-  points.className = "connection-points";
+  const points = document.createElement('div');
+  points.className = 'connection-points';
 
   const blockId = blockElement.dataset.id;
 
   // Punto de entrada principal (izquierda)
-  const inputPoint = createConnectionPoint(blockId, "input-main", "input");
+  const inputPoint = createConnectionPoint(blockId, 'input-main', 'input');
   points.appendChild(inputPoint);
 
   // Punto de salida principal (derecha)
-  const outputPoint = createConnectionPoint(blockId, "output-main", "output");
+  const outputPoint = createConnectionPoint(blockId, 'output-main', 'output');
   points.appendChild(outputPoint);
 
   // Botón plus para agregar más conexiones
-  const plusBtn = document.createElement("div");
-  plusBtn.className = "connection-add-btn";
-  plusBtn.innerHTML = "+";
-  plusBtn.title = "Agregar conexión";
-  plusBtn.addEventListener("click", (e) => {
+  const plusBtn = document.createElement('div');
+  plusBtn.className = 'connection-add-btn';
+  plusBtn.innerHTML = '+';
+  plusBtn.title = 'Agregar conexión';
+  plusBtn.addEventListener('click', (e) => {
     e.stopPropagation();
   });
   points.appendChild(plusBtn);
@@ -110,78 +110,71 @@ function addConnectionPoints(blockElement) {
 
 // Crear un punto de conexión
 function createConnectionPoint(blockId, position, type) {
-  const point = document.createElement("div");
+  const point = document.createElement('div');
   point.className = `connection-point ${position} ${type}`;
   point.dataset.blockId = blockId;
   point.dataset.position = position;
   point.dataset.type = type;
 
-  if (type === "output") {
-    point.addEventListener("mousedown", (e) => {
+  if (type === 'output') {
+    point.addEventListener('mousedown', (e) => {
       e.preventDefault();
       e.stopPropagation();
       startConnectionDrag(blockId, position, e);
     });
   }
 
-  point.addEventListener("mouseenter", () => {
-    if (isDraggingConnection && type === "input") {
-      point.classList.add("highlight");
+  point.addEventListener('mouseenter', () => {
+    if (isDraggingConnection && type === 'input') {
+      point.classList.add('highlight');
     }
   });
 
-  point.addEventListener("mouseleave", () => {
-    point.classList.remove("highlight");
+  point.addEventListener('mouseleave', () => {
+    point.classList.remove('highlight');
   });
 
   return point;
 }
 
 // Iniciar drag de conexión
-function startConnectionDrag(blockId, position, event) {
+function startConnectionDrag(blockId, position, _event) {
   isDraggingConnection = true;
   connectionDragStart = { blockId, position };
 
-  const sourceBlock = document.querySelector(
-    `.action-block[data-id="${blockId}"]`
-  );
+  const sourceBlock = document.querySelector(`.action-block[data-id="${blockId}"]`);
   if (sourceBlock) {
-    sourceBlock.classList.add("connecting", "connection-source");
+    sourceBlock.classList.add('connecting', 'connection-source');
 
-    const point = sourceBlock.querySelector(
-      `.connection-point[data-position="${position}"]`
-    );
+    const point = sourceBlock.querySelector(`.connection-point[data-position="${position}"]`);
     if (point) {
-      point.classList.add("dragging", "active");
+      point.classList.add('dragging', 'active');
     }
   }
 
   // Resaltar bloques de destino
-  document.querySelectorAll(".action-block").forEach((block) => {
+  document.querySelectorAll('.action-block').forEach((block) => {
     if (block.dataset.id !== blockId) {
-      block.classList.add("connection-target");
-      const inputPoints = block.querySelectorAll(".connection-point.input");
-      inputPoints.forEach((p) => p.classList.add("active"));
+      block.classList.add('connection-target');
+      const inputPoints = block.querySelectorAll('.connection-point.input');
+      inputPoints.forEach((p) => p.classList.add('active'));
     }
   });
 
-  document.body.style.cursor = "crosshair";
+  document.body.style.cursor = 'crosshair';
 
   createPreviewLine();
-  showDragIndicator("Arrastra hacia un punto de entrada");
+  showDragIndicator('Arrastra hacia un punto de entrada');
 }
 
 // Crear línea de preview
 function createPreviewLine() {
   const workspace = getActiveWorkspace();
-  const svg = workspace?.querySelector(".connections-canvas svg");
+  const svg = workspace?.querySelector('.connections-canvas svg');
 
   if (svg && !previewLine) {
-    previewLine = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "path"
-    );
-    previewLine.classList.add("connection-preview");
+    previewLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    previewLine.classList.add('connection-preview');
     svg.appendChild(previewLine);
   }
 }
@@ -194,18 +187,14 @@ function handleConnectionDrag(e) {
   if (!workspace) return;
 
   const workspaceRect = workspace.getBoundingClientRect();
-  const scrollContainer = workspace.closest(".workspace-container");
+  const scrollContainer = workspace.closest('.workspace-container');
 
   const sourceBlock = document.querySelector(
     `.action-block[data-id="${connectionDragStart.blockId}"]`
   );
   if (!sourceBlock) return;
 
-  const startPos = getPointPosition(
-    sourceBlock,
-    connectionDragStart.position,
-    workspace
-  );
+  const startPos = getPointPosition(sourceBlock, connectionDragStart.position, workspace);
   const scrollLeft = scrollContainer ? scrollContainer.scrollLeft : 0;
   const scrollTop = scrollContainer ? scrollContainer.scrollTop : 0;
 
@@ -213,16 +202,13 @@ function handleConnectionDrag(e) {
   const endY = e.clientY - workspaceRect.top + scrollTop;
 
   const path = createOrthogonalPath(startPos.x, startPos.y, endX, endY);
-  previewLine.setAttribute("d", path);
+  previewLine.setAttribute('d', path);
 
   updateDragIndicator(e.clientX, e.clientY);
 
   const targetPoint = document.elementFromPoint(e.clientX, e.clientY);
-  if (
-    targetPoint?.classList.contains("connection-point") &&
-    targetPoint.dataset.type === "input"
-  ) {
-    updateDragIndicator(e.clientX, e.clientY, "✓ Suelta para conectar");
+  if (targetPoint?.classList.contains('connection-point') && targetPoint.dataset.type === 'input') {
+    updateDragIndicator(e.clientX, e.clientY, '✓ Suelta para conectar');
   }
 }
 
@@ -233,8 +219,8 @@ function handleConnectionMouseUp(e) {
   const targetElement = document.elementFromPoint(e.clientX, e.clientY);
 
   if (
-    targetElement?.classList.contains("connection-point") &&
-    targetElement.dataset.type === "input"
+    targetElement?.classList.contains('connection-point') &&
+    targetElement.dataset.type === 'input'
   ) {
     const targetBlockId = targetElement.dataset.blockId;
     const targetPosition = targetElement.dataset.position;
@@ -252,8 +238,8 @@ function finishConnection(targetBlockId, targetPosition) {
   // Validar
   if (connectionDragStart.blockId === targetBlockId) {
     cancelConnection();
-    if (typeof showNotification === "function") {
-      showNotification("❌ No puedes conectar un bloque consigo mismo", true);
+    if (typeof window.showNotification === 'function') {
+      window.showNotification('❌ No puedes conectar un bloque consigo mismo', true);
     }
     return;
   }
@@ -268,8 +254,8 @@ function finishConnection(targetBlockId, targetPosition) {
 
   if (exists) {
     cancelConnection();
-    if (typeof showNotification === "function") {
-      showNotification("⚠️ Esta conexión ya existe", true);
+    if (typeof window.showNotification === 'function') {
+      window.showNotification('⚠️ Esta conexión ya existe', true);
     }
     return;
   }
@@ -284,7 +270,7 @@ function finishConnection(targetBlockId, targetPosition) {
       blockId: targetBlockId,
       position: targetPosition,
     },
-    type: "default",
+    type: 'default',
   };
 
   connections.push(connection);
@@ -297,8 +283,8 @@ function finishConnection(targetBlockId, targetPosition) {
 
   cancelConnection();
 
-  if (typeof showNotification === "function") {
-    showNotification("✅ Conexión creada");
+  if (typeof window.showNotification === 'function') {
+    window.showNotification('✅ Conexión creada');
   }
 }
 
@@ -306,20 +292,16 @@ function finishConnection(targetBlockId, targetPosition) {
 function cancelConnection() {
   isDraggingConnection = false;
 
-  document.querySelectorAll(".action-block").forEach((block) => {
-    block.classList.remove(
-      "connecting",
-      "connection-source",
-      "connection-target"
-    );
+  document.querySelectorAll('.action-block').forEach((block) => {
+    block.classList.remove('connecting', 'connection-source', 'connection-target');
   });
 
-  document.querySelectorAll(".connection-point").forEach((point) => {
-    point.classList.remove("dragging", "active", "highlight");
+  document.querySelectorAll('.connection-point').forEach((point) => {
+    point.classList.remove('dragging', 'active', 'highlight');
   });
 
   connectionDragStart = null;
-  document.body.style.cursor = "default";
+  document.body.style.cursor = 'default';
 
   if (previewLine) {
     previewLine.remove();
@@ -335,7 +317,7 @@ function getPointPosition(block, position, workspace) {
 
   const rect = block.getBoundingClientRect();
   const workspaceRect = workspace.getBoundingClientRect();
-  const scrollContainer = workspace.closest(".workspace-container");
+  const scrollContainer = workspace.closest('.workspace-container');
 
   const scrollLeft = scrollContainer ? scrollContainer.scrollLeft : 0;
   const scrollTop = scrollContainer ? scrollContainer.scrollTop : 0;
@@ -344,13 +326,13 @@ function getPointPosition(block, position, workspace) {
   const baseY = rect.top - workspaceRect.top + scrollTop;
 
   const positions = {
-    "input-main": { x: baseX, y: baseY + rect.height / 2 },
-    "output-main": { x: baseX + rect.width, y: baseY + rect.height / 2 },
-    "output-top": { x: baseX + rect.width, y: baseY + rect.height * 0.25 },
-    "output-bottom": { x: baseX + rect.width, y: baseY + rect.height * 0.75 },
+    'input-main': { x: baseX, y: baseY + rect.height / 2 },
+    'output-main': { x: baseX + rect.width, y: baseY + rect.height / 2 },
+    'output-top': { x: baseX + rect.width, y: baseY + rect.height * 0.25 },
+    'output-bottom': { x: baseX + rect.width, y: baseY + rect.height * 0.75 },
   };
 
-  return positions[position] || positions["output-main"];
+  return positions[position] || positions['output-main'];
 }
 
 // Crear path ortogonal
@@ -362,67 +344,50 @@ function createOrthogonalPath(x1, y1, x2, y2) {
 // Dibujar conexión
 function drawConnection(connection) {
   const workspace = getActiveWorkspace();
-  const svg = workspace?.querySelector(".connections-canvas svg");
+  const svg = workspace?.querySelector('.connections-canvas svg');
   if (!svg) {
-    console.warn("No se encontró SVG canvas");
+    console.warn('No se encontró SVG canvas');
     return;
   }
 
-  const fromBlock = workspace.querySelector(
-    `.action-block[data-id="${connection.from.blockId}"]`
-  );
-  const toBlock = workspace.querySelector(
-    `.action-block[data-id="${connection.to.blockId}"]`
-  );
+  const fromBlock = workspace.querySelector(`.action-block[data-id="${connection.from.blockId}"]`);
+  const toBlock = workspace.querySelector(`.action-block[data-id="${connection.to.blockId}"]`);
 
   if (!fromBlock || !toBlock) {
-    console.warn("No se encontraron bloques", connection);
+    console.warn('No se encontraron bloques', connection);
     return;
   }
 
-  const fromPos = getPointPosition(
-    fromBlock,
-    connection.from.position,
-    workspace
-  );
+  const fromPos = getPointPosition(fromBlock, connection.from.position, workspace);
   const toPos = getPointPosition(toBlock, connection.to.position, workspace);
 
-  const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
   group.dataset.connectionId = connection.id;
   group.dataset.from = connection.from.blockId;
   group.dataset.to = connection.to.blockId;
-  group.classList.add("connection-group");
+  group.classList.add('connection-group');
 
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.classList.add("connection-line", connection.type);
-  path.setAttribute(
-    "d",
-    createOrthogonalPath(fromPos.x, fromPos.y, toPos.x, toPos.y)
-  );
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.classList.add('connection-line', connection.type);
+  path.setAttribute('d', createOrthogonalPath(fromPos.x, fromPos.y, toPos.x, toPos.y));
 
-  path.addEventListener("click", (e) => {
+  path.addEventListener('click', (e) => {
     e.stopPropagation();
     selectConnection(connection.id);
   });
 
   // Círculos en los extremos
-  const startCircle = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "circle"
-  );
-  startCircle.classList.add("connection-endpoint");
-  startCircle.setAttribute("cx", fromPos.x);
-  startCircle.setAttribute("cy", fromPos.y);
-  startCircle.setAttribute("r", 4);
+  const startCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  startCircle.classList.add('connection-endpoint');
+  startCircle.setAttribute('cx', fromPos.x);
+  startCircle.setAttribute('cy', fromPos.y);
+  startCircle.setAttribute('r', 4);
 
-  const endCircle = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "circle"
-  );
-  endCircle.classList.add("connection-endpoint");
-  endCircle.setAttribute("cx", toPos.x);
-  endCircle.setAttribute("cy", toPos.y);
-  endCircle.setAttribute("r", 4);
+  const endCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  endCircle.classList.add('connection-endpoint');
+  endCircle.setAttribute('cx', toPos.x);
+  endCircle.setAttribute('cy', toPos.y);
+  endCircle.setAttribute('r', 4);
 
   group.appendChild(path);
   group.appendChild(startCircle);
@@ -437,60 +402,47 @@ function updateAllConnections() {
   if (!workspace) return;
 
   connections.forEach((connection) => {
-    const group = workspace.querySelector(
-      `[data-connection-id="${connection.id}"]`
-    );
+    const group = workspace.querySelector(`[data-connection-id="${connection.id}"]`);
     if (!group) return;
 
     const fromBlock = workspace.querySelector(
       `.action-block[data-id="${connection.from.blockId}"]`
     );
-    const toBlock = workspace.querySelector(
-      `.action-block[data-id="${connection.to.blockId}"]`
-    );
+    const toBlock = workspace.querySelector(`.action-block[data-id="${connection.to.blockId}"]`);
 
     if (!fromBlock || !toBlock) return;
 
-    const fromPos = getPointPosition(
-      fromBlock,
-      connection.from.position,
-      workspace
-    );
+    const fromPos = getPointPosition(fromBlock, connection.from.position, workspace);
     const toPos = getPointPosition(toBlock, connection.to.position, workspace);
 
-    const path = group.querySelector(".connection-line");
+    const path = group.querySelector('.connection-line');
     if (path) {
-      path.setAttribute(
-        "d",
-        createOrthogonalPath(fromPos.x, fromPos.y, toPos.x, toPos.y)
-      );
+      path.setAttribute('d', createOrthogonalPath(fromPos.x, fromPos.y, toPos.x, toPos.y));
     }
 
-    const circles = group.querySelectorAll(".connection-endpoint");
+    const circles = group.querySelectorAll('.connection-endpoint');
     if (circles[0]) {
-      circles[0].setAttribute("cx", fromPos.x);
-      circles[0].setAttribute("cy", fromPos.y);
+      circles[0].setAttribute('cx', fromPos.x);
+      circles[0].setAttribute('cy', fromPos.y);
     }
     if (circles[1]) {
-      circles[1].setAttribute("cx", toPos.x);
-      circles[1].setAttribute("cy", toPos.y);
+      circles[1].setAttribute('cx', toPos.x);
+      circles[1].setAttribute('cy', toPos.y);
     }
   });
 }
 
 // Seleccionar conexión
 function selectConnection(connectionId) {
-  document.querySelectorAll(".connection-line").forEach((line) => {
-    line.classList.remove("selected");
+  document.querySelectorAll('.connection-line').forEach((line) => {
+    line.classList.remove('selected');
   });
 
-  const group = document.querySelector(
-    `[data-connection-id="${connectionId}"]`
-  );
+  const group = document.querySelector(`[data-connection-id="${connectionId}"]`);
   if (group) {
-    const line = group.querySelector(".connection-line");
+    const line = group.querySelector('.connection-line');
     if (line) {
-      line.classList.add("selected");
+      line.classList.add('selected');
     }
   }
 }
@@ -499,15 +451,13 @@ function selectConnection(connectionId) {
 function deleteConnection(connectionId) {
   connections = connections.filter((c) => c.id !== connectionId);
 
-  const group = document.querySelector(
-    `[data-connection-id="${connectionId}"]`
-  );
+  const group = document.querySelector(`[data-connection-id="${connectionId}"]`);
   if (group) {
     group.remove();
   }
 
-  if (typeof showNotification === "function") {
-    showNotification("🗑️ Conexión eliminada");
+  if (typeof window.showNotification === 'function') {
+    window.showNotification('🗑️ Conexión eliminada');
   }
 }
 
@@ -526,21 +476,21 @@ function removeConnectionsForBlock(blockId) {
     (conn) => conn.from.blockId !== blockId && conn.to.blockId !== blockId
   );
 
-  if (toRemove.length > 0 && typeof showNotification === "function") {
-    showNotification(`🗑️ ${toRemove.length} conexión(es) eliminada(s)`);
+  if (toRemove.length > 0 && typeof window.showNotification === 'function') {
+    window.showNotification(`🗑️ ${toRemove.length} conexión(es) eliminada(s)`);
   }
 }
 
 // Keyboard handler
 function handleConnectionKeyboard(e) {
-  if (e.key === "Escape" && isDraggingConnection) {
+  if (e.key === 'Escape' && isDraggingConnection) {
     cancelConnection();
   }
 
-  if (e.key === "Delete" || e.key === "Backspace") {
-    const selectedLine = document.querySelector(".connection-line.selected");
+  if (e.key === 'Delete' || e.key === 'Backspace') {
+    const selectedLine = document.querySelector('.connection-line.selected');
     if (selectedLine) {
-      const group = selectedLine.closest("[data-connection-id]");
+      const group = selectedLine.closest('[data-connection-id]');
       if (group) {
         deleteConnection(parseInt(group.dataset.connectionId));
       }
@@ -551,18 +501,18 @@ function handleConnectionKeyboard(e) {
 // Drag indicator helpers
 function showDragIndicator(text) {
   if (!dragIndicator) {
-    dragIndicator = document.createElement("div");
-    dragIndicator.className = "connection-drag-indicator";
+    dragIndicator = document.createElement('div');
+    dragIndicator.className = 'connection-drag-indicator';
     document.body.appendChild(dragIndicator);
   }
   dragIndicator.textContent = text;
-  dragIndicator.style.display = "block";
+  dragIndicator.style.display = 'block';
 }
 
 function updateDragIndicator(x, y, text) {
   if (dragIndicator) {
-    dragIndicator.style.left = x + 20 + "px";
-    dragIndicator.style.top = y - 30 + "px";
+    dragIndicator.style.left = x + 20 + 'px';
+    dragIndicator.style.top = y - 30 + 'px';
     if (text) dragIndicator.textContent = text;
   }
 }
@@ -578,8 +528,8 @@ function clearAllConnections() {
   connections = [];
   const workspace = getActiveWorkspace();
   if (workspace) {
-    const svg = workspace.querySelector(".connections-canvas svg");
-    if (svg) svg.innerHTML = "";
+    const svg = workspace.querySelector('.connections-canvas svg');
+    if (svg) svg.innerHTML = '';
   }
 }
 
@@ -594,4 +544,4 @@ window.connections = {
   getAll: () => connections,
 };
 
-console.log("📦 connections.js cargado");
+console.log('📦 connections.js cargado');

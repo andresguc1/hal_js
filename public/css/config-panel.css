@@ -84,9 +84,9 @@
   margin-bottom: 8px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group input[type="url"],
+.form-group input[type='text'],
+.form-group input[type='number'],
+.form-group input[type='url'],
 .form-group textarea,
 .form-group select {
   width: 100%;
@@ -100,9 +100,9 @@
   transition: all 0.2s ease;
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="number"]:focus,
-.form-group input[type="url"]:focus,
+.form-group input[type='text']:focus,
+.form-group input[type='number']:focus,
+.form-group input[type='url']:focus,
 .form-group textarea:focus,
 .form-group select:focus {
   outline: none;
@@ -115,7 +115,7 @@
   min-height: 80px;
 }
 
-.form-group input[type="color"] {
+.form-group input[type='color'] {
   width: 60px;
   height: 40px;
   border: 1px solid #d0d0d0;
@@ -124,7 +124,7 @@
   padding: 4px;
 }
 
-.form-group input[type="checkbox"] {
+.form-group input[type='checkbox'] {
   width: 18px;
   height: 18px;
   cursor: pointer;
@@ -243,7 +243,7 @@
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 18px;
   width: 18px;
   left: 3px;
