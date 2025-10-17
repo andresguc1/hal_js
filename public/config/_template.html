@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Configuración - {{ACTION}}</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            margin: 12px;
+            background: #fff;
+            color: #111
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .field {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #2b6cb0;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: #eee;
+            color: #111;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Configuración — {{DISPLAY_NAME}}</h1>
+
+        <div class="field">
+            <label for="cfg-target">Selector / Target</label>
+            <input id="cfg-target" type="text" placeholder="#selector ó .clase" />
+        </div>
+
+        <div class="field">
+            <label for="cfg-value">Valor / Texto</label>
+            <input id="cfg-value" type="text" />
+        </div>
+
+        <div class="field">
+            <label for="cfg-extra">Opciones adicionales (JSON)</label>
+            <textarea id="cfg-extra" rows="4" placeholder='{"timeout":5000}'></textarea>
+        </div>
+
+        <div>
+            <button id="btnSave" class="btn btn-primary">Guardar</button>
+            <button id="btnPreview" class="btn btn-secondary">Vista previa</button>
+            <button id="btnClose" class="btn btn-secondary">Cerrar</button>
+        </div>
+
+        <pre id="log"
+            style="margin-top:14px;background:#f7f7f7;padding:10px;border-radius:6px;height:120px;overflow:auto"></pre>
+    </div>
+
+    <script>
+        // contrato de mensajes:
+        // recibir init -> { type:'init', payload:{ nodeId, initialConfig } }
+        // enviar save-config -> { type:'save-config', payload:{ nodeId, config } }
+        // enviar preview -> { type:'preview', payload:{ nodeId, preview } }
+        const logEl = document.getElementById('log');
+        let currentNodeId = null;
+        function log(msg) {
+            logEl.textContent = (new Date()).toLocaleTimeString() + ' — ' + msg + '\\n' + logEl.textContent;
+        }
+
+        window.addEventListener('message', (ev) => {
+            const m = ev.data;
+            if (!m || !m.type) return;
+            if (m.type === 'init') {
+                currentNodeId = m.payload?.nodeId ?? null;
+                const cfg = m.payload?.initialConfig ?? {};
+                document.getElementById('cfg-target').value = cfg.target || '';
+                document.getElementById('cfg-value').value = cfg.value || '';
+                document.getElementById('cfg-extra').value = cfg.extra ? JSON.stringify(cfg.extra, null, 2) : (typeof cfg.extra === 'string' ? cfg.extra : '');
+                log('init nodeId=' + currentNodeId);
+            }
+            if (m.type === 'validate') {
+                // optional: validate fields and post back
+                const ok = true;
+                ev.source.postMessage({ type:'validate-result', payload:{ ok } }, '*');
+            }
+        }, false);
+
+        function readConfig() {
+            const extraTxt = document.getElementById('cfg-extra').value;
+            let extra = null;
+            try {
+                extra = extraTxt ? JSON.parse(extraTxt) : null;
+            } catch (e) {
+                extra = extraTxt;
+            }
+            return {
+                target: document.getElementById('cfg-target').value,
+                value: document.getElementById('cfg-value').value,
+                extra
+            };
+        }
+
+        document.getElementById('btnSave').addEventListener('click', () => {
+            const payload = { nodeId: currentNodeId, config: readConfig() };
+            parent.postMessage({ type:'save-config', payload }, '*');
+            log('save-config sent');
+        });
+        document.getElementById('btnPreview').addEventListener('click', () => {
+            const payload = { nodeId: currentNodeId, preview: { message:'preview', config: readConfig() } };
+            parent.postMessage({ type:'preview', payload }, '*');
+            log('preview sent');
+        });
+        document.getElementById('btnClose').addEventListener('click', () => {
+            parent.postMessage({ type:'close' }, '*');
+        });
+    </script>
+</body>
+
+</html>

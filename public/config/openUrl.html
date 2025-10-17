@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Playwright Configurator</title>
+</head>
+
+<body>
+    <table style="width: 100%; height: 100vh; border-collapse: collapse; font-family: sans-serif;">
+        <tr>
+            <td rowspan="2"
+                style="width: 50%; border: 1px solid #333; vertical-align: top; padding: 20px; background-color: #f4f4f4;">
+                <h2>⚙️ Configuración de Playwright</h2>
+                <form id="configForm">
+                    <label for="targetUrl" style="display: block; margin-top: 10px; font-weight: bold;">URL a
+                        Navegar:</label>
+                    <input type="text" id="targetUrl" value="https://example.com"
+                        style="width: 95%; padding: 8px; margin-top: 5px; border: 1px solid #ccc;">
+
+                    <p style="margin-top: 15px; font-style: italic; color: #555;">
+                        *La ruta del screenshot se define por defecto en el backend.
+                    </p>
+
+                </form>
+                <div id="status" style="margin-top: 20px; font-weight: bold;"></div>
+            </td>
+
+            <td style="width: 50%; height: 50%; border: 1px solid #333; vertical-align: top; padding: 20px;">
+                <h2>📝 Información de la Ejecución</h2>
+                <div id="executionResults">
+                    <p><strong>URL Accedida:</strong> <span id="resultUrl">N/A</span></p>
+                    <p><strong>Estado de Navegación:</strong> <span id="resultStatus">Pendiente de Ejecución</span></p>
+                    <p><strong>Ruta de Archivo Generado:</strong> <span id="resultPath">N/A</span></p>
+                    <p><strong>Timestamp de Ejecución:</strong> <span id="resultTimestamp">N/A</span></p>
+                    <p><strong>Tiempo Total:</strong> <span id="resultTime">N/A</span></p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%; height: 50%; border: 1px solid #333; vertical-align: top; padding: 20px;">
+                <h2>🖼️ Resultado/Vista Previa</h2>
+                <p>Aquí se podría incrustar el screenshot generado después de la ejecución.</p>
+                <img id="screenshotPreview" src="" alt="Vista previa del screenshot"
+                    style="max-width: 100%; border: 1px solid #ccc; display: none;">
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
