@@ -11,18 +11,26 @@ function closeConfigPanel() {
 
 function clearResults() {
     const el = id => document.getElementById(id);
-    if (el('resultUrl')) el('resultUrl').textContent = 'N/A';
-    if (el('resultStatus')) el('resultStatus').textContent = 'Pendiente de Ejecución';
-    if (el('resultPath')) el('resultPath').textContent = 'N/A';
-    if (el('resultTimestamp')) el('resultTimestamp').textContent = 'N/A';
-    if (el('resultTime')) el('resultTime').textContent = 'N/A';
+    ['resultUrl', 'resultStatus', 'resultPath', 'resultTimestamp', 'resultTime'].forEach(id => {
+        if (el(id)) el(id).textContent = id.includes('Status') ? 'Pendiente de Ejecución' : 'N/A';
+    });
+
     const img = el('screenshotPreview');
     if (img) {
         img.style.display = 'none';
         img.src = '';
     }
-    const ph = document.getElementById('previewPlaceholder');
+
+    const ph = el('previewPlaceholder');
     if (ph) ph.style.display = 'flex';
+
+    // Limpiar shapes y bloques usando AppState
+    if (window.app) {
+        document.querySelectorAll('.placed-shape, .action-block').forEach(shape => shape.remove());
+        window.app.actionsShapes = [];
+        window.app.actionsCounter = 0;
+        window.app.saveState();
+    }
 }
 
 function showStatus(text, type = 'info') {
@@ -81,7 +89,13 @@ function confirmDelete() {
         const blockId = placedShape.getAttribute('data-id') || placedShape.getAttribute('data-block-id') || placedShape.dataset.id;
         if (!workspace || workspace.contains(placedShape)) {
             removeSvgConnectionsByBlockId(blockId);
-            fadeOutAndRemove(placedShape);
+            if (window.app && placedShape.dataset.id) {
+                window.app.selectShape(Number(placedShape.dataset.id));
+                window.app.deleteCurrentShape();
+            } else {
+                fadeOutAndRemove(placedShape);
+            }
+
             showStatus('Bloque de acción eliminado.', 'info');
             return;
         }

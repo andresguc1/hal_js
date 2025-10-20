@@ -1,7 +1,7 @@
-// ./config-panel.js (módulo ES, versión mínima y funcional)
+// ./config-panel.js (módulo ES, versión final corregida)
 
 let selectedShapeId = null;
-const _iframeCache = new Map();
+const _iframeCache = new Map(); // Se mantiene pero ya no se usa para configuración dinámica
 
 function attachConfigPanelBehaviors(panelElement) {
   if (!panelElement) return;
@@ -257,27 +257,26 @@ function handleIframeMessage(event) {
   }
 }
 
+// ---------------------------------------------------------------------
+// FUNCIÓN CORREGIDA
+// ---------------------------------------------------------------------
 function loadConfigPage(options = {}) {
   const { action, configPage, nodeId, initialConfig, displayName } = options;
   const panel = ensureConfigPanelShell(displayName || action || 'Configuración');
   if (!panel) return;
   const content = panel.querySelector('.config-content');
   if (!content) return;
+  
   let page = configPage || (action ? `config/${action}.html` : null);
   if (!page) { content.innerHTML = `<div class="info-box">No hay configuración disponible.</div>`; return; }
 
-  const key = page;
-  let iframeEntry = _iframeCache.get(key);
-  if (iframeEntry && iframeEntry.iframe) {
-    content.innerHTML = '';
-    content.appendChild(iframeEntry.iframe);
-    iframeEntry.iframe.contentWindow?.postMessage({ type: 'init', payload: { nodeId: nodeId || null, initialConfig: initialConfig || null } }, '*');
-    attachConfigPanelBehaviors(panel);
-    return;
-  }
+  // 💡 Corrección clave: Deshabilitar la caché. Añadir un timestamp como query 
+  // para forzar al navegador a recargar el iframe cada vez, eliminando el "flash" 
+  // y la pérdida de configuración.
+  const pageUrl = `${page}?_t=${Date.now()}`; 
 
   const iframe = document.createElement('iframe');
-  iframe.src = page;
+  iframe.src = pageUrl;
   iframe.className = 'config-iframe';
   iframe.style.width = '100%';
   iframe.style.height = '100%';
@@ -285,18 +284,30 @@ function loadConfigPage(options = {}) {
   iframe.setAttribute('loading', 'lazy');
 
   content.innerHTML = `<div class="info-box">Cargando configuración: ${page} ...</div>`;
+  
+  // No hay lógica de caché aquí: siempre se crea un iframe nuevo.
+  
   iframe.addEventListener('load', () => {
+    // Reemplazar el contenido de "Cargando" con el iframe si aún no está adjunto
     if (!content.contains(iframe)) {
       content.innerHTML = '';
       content.appendChild(iframe);
     }
-    try { iframe.contentWindow.postMessage({ type: 'init', payload: { nodeId: nodeId || null, initialConfig: initialConfig || null } }, '*'); } catch (e) { }
+    try { 
+      // Enviar el mensaje 'init' con la configuración inicial al iframe
+      iframe.contentWindow.postMessage({ type: 'init', payload: { nodeId: nodeId || null, initialConfig: initialConfig || null } }, '*'); 
+    } catch (e) { /* Manejo de errores de postMessage */ }
   });
+  
+  // Adjuntar el iframe al DOM (esto dispara la carga)
   content.innerHTML = '';
   content.appendChild(iframe);
-  _iframeCache.set(key, { iframe, page, createdAt: Date.now() });
+  
+  // No se utiliza _iframeCache, por lo que no se almacena aquí.
+  
   attachConfigPanelBehaviors(panel);
 }
+// ---------------------------------------------------------------------
 
 function slugify(str = '') {
   return String(str).trim().toLowerCase()
