@@ -1,7 +1,19 @@
+/* ---------------------------
+   CSS original (no modificado)
+   --------------------------- */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+:root {
+  --header-height: 64px;
+  --header-bg: #3a3a3a;
+  /* gris más claro que el fondo general */
+  --header-border: rgba(255, 255, 255, 0.08);
+  --accent: #4ea3ff;
 }
 
 html,
@@ -20,6 +32,7 @@ body {
 
 .main-container {
   width: 100vw;
+  /* cambiado para respetar altura del header (variable definida más abajo) */
   height: 100vh;
   background: #2c2c2c;
   display: flex;
@@ -46,5 +59,162 @@ body {
 @media (max-width: 768px) {
   .top-section {
     flex-direction: column;
+  }
+}
+
+/* --------------------------------------------------
+   Reglas añadidas para el header (no destructivas)
+   -------------------------------------------------- */
+
+/* Variables del header */
+:root {
+  --header-height: 64px;
+  --header-bg: #222;
+  --header-border: rgba(255, 255, 255, 0.04);
+  --accent: #4ea3ff;
+}
+
+/* Ajuste del main para respetar el header */
+.main-container {
+  height: calc(100vh - var(--header-height));
+}
+
+/* Header básico */
+
+.app-header {
+  height: var(--header-height);
+  min-height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  gap: 12px;
+  background: linear-gradient(180deg, #3a3a3a, #333); /* gris degradado */
+  border-bottom: 1px solid var(--header-border);
+  color: #fff;
+  user-select: none;
+  z-index: 40;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25); /* sutil separación visual */
+}
+
+
+/* Left side: burger + brand */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Burger button */
+.burger-btn {
+  width: 44px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.burger-btn:focus {
+  outline: 2px solid rgba(78, 163, 255, 0.25);
+  outline-offset: 2px;
+}
+
+.burger-line {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #ddd;
+  margin: 3px 0;
+  border-radius: 2px;
+}
+
+/* Brand title (opcional, pequeño) */
+.brand-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8e8e8;
+  opacity: 0.95;
+}
+
+/* Right side: perfil */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Perfil */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.user-profile:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: block;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.user-role {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* pequeño botón chevron */
+.user-menu-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 4px;
+}
+
+/* Responsive: en pantallas pequeñas reducir texto y ocultar brand */
+@media (max-width: 768px) {
+  .brand-title {
+    display: none;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  /* solo avatar se mantiene */
+  .app-header {
+    padding: 0 8px;
   }
 }

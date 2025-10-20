@@ -1,147 +1,200 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Configuración - {{ACTION}}</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-            margin: 12px;
-            background: #fff;
-            color: #111
-        }
 
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-        }
+    <!-- Plantilla: sustituir {{PAGE_TITLE}} y {{META_DESC}} -->
+    <title>{{PAGE_TITLE}} — Proyecto</title>
+    <meta name="description" content="{{META_DESC}}" />
 
-        .field {
-            margin-bottom: 12px;
-        }
+    <!-- CSS base: reemplaza /css/styles.css por tu hoja de estilos real -->
+    <link rel="stylesheet" href="/css/styles.css" />
 
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 0;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: #2b6cb0;
-            color: #fff;
-        }
-
-        .btn-secondary {
-            background: #eee;
-            color: #111;
-            margin-left: 8px;
-        }
-    </style>
+    <!-- Zona para inyectar estilos adicionales desde páginas específicas -->
+    <!-- {{EXTRA_HEAD}} -->
 </head>
 
 <body>
-    <div class="container">
-        <h1>Configuración — {{DISPLAY_NAME}}</h1>
-
-        <div class="field">
-            <label for="cfg-target">Selector / Target</label>
-            <input id="cfg-target" type="text" placeholder="#selector ó .clase" />
+    <header class="site-header" role="banner">
+        <div class="container">
+            <a class="brand" href="/" aria-label="Inicio">Proyecto</a>
+            <nav class="main-nav" role="navigation" aria-label="Navegación principal">
+                <ul>
+                    <li><a href="#config" id="link-config">Configuración</a></li>
+                    <li><a href="#preview" id="link-preview">Vista previa</a></li>
+                    <li><a href="#info" id="link-info">Información</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <div class="field">
-            <label for="cfg-value">Valor / Texto</label>
-            <input id="cfg-value" type="text" />
+    <main class="container" role="main">
+
+        <!-- PANEL DE CONFIGURACIÓN: copy/paste o reutilizar en futuras páginas -->
+        <section id="config" class="panel-config" aria-labelledby="configTitle">
+            <h2 id="configTitle">⚙️ Configuración</h2>
+            <p class="lead">Define la URL y opciones antes de ejecutar.</p>
+
+            <form id="configForm" aria-describedby="configNote">
+                <!-- Campo URL -->
+                <div class="form-row">
+                    <label for="targetUrl">URL a Navegar</label>
+                    <input id="targetUrl" name="targetUrl" type="url" value="https://example.com" placeholder="https://"
+                        required aria-label="URL a navegar" />
+                </div>
+
+                <!-- Viewport -->
+                <div class="form-row">
+                    <label for="viewport">Viewport (opcional)</label>
+                    <select id="viewport" name="viewport" aria-label="Viewport">
+                        <option value="desktop">Desktop — 1366x768</option>
+                        <option value="tablet">Tablet — 768x1024</option>
+                        <option value="mobile">Mobile — 375x812</option>
+                    </select>
+                </div>
+
+                <!-- Mensajes de estado accesibles -->
+                <div id="status" class="status" role="status" aria-live="polite" hidden>Estado</div>
+
+                <!-- Acciones: ajustar o extender según necesidad -->
+                <div class="config-footer" role="group" aria-label="Acciones de configuración">
+                    <button type="button" class="btn btn-secondary" id="btn-example">Cargar ejemplo</button>
+                    <button type="button" class="btn btn-danger" id="btn-delete">Eliminar</button>
+                    <button type="button" class="btn btn-primary" id="btn-run">Ejecutar</button>
+                    <button type="button" class="btn" id="btn-close">Cerrar</button>
+                </div>
+
+                <p id="configNote" class="muted-note">Usa los botones para acciones rápidas. Este formulario actúa como
+                    plantilla reutilizable.</p>
+            </form>
+        </section>
+
+        <!-- INFORMACIÓN DE EJECUCIÓN: sección reusable con campos estandarizados -->
+        <aside id="info" class="card execution-info" aria-labelledby="execTitle">
+            <h3 id="execTitle">📝 Información de la Ejecución</h3>
+            <p><strong>URL Accedida:</strong> <span id="resultUrl">N/A</span></p>
+            <p><strong>Estado de Navegación:</strong> <span id="resultStatus">Pendiente de Ejecución</span></p>
+            <p><strong>Ruta de Archivo Generado:</strong> <span id="resultPath">N/A</span></p>
+            <p><strong>Timestamp de Ejecución:</strong> <span id="resultTimestamp">N/A</span></p>
+            <p><strong>Tiempo Total:</strong> <span id="resultTime">N/A</span></p>
+        </aside>
+
+        <!-- PREVISUALIZACIÓN: mantén el mismo layout en futuras páginas -->
+        <section id="preview" class="card preview" aria-labelledby="previewTitle">
+            <h3 id="previewTitle">🖼️ Resultado / Vista Previa</h3>
+            <p class="muted-note">La imagen se mostrará aquí tras la ejecución.</p>
+            <img id="screenshotPreview" class="screenshot" src="" alt="Vista previa del screenshot generado" hidden />
+            <div id="previewPlaceholder" class="preview-placeholder">
+                <span class="muted-note">Sin vista previa — ejecuta para generar</span>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <small>© {{YEAR}} — Proyecto. Plantilla base: _template.html</small>
         </div>
+    </footer>
 
-        <div class="field">
-            <label for="cfg-extra">Opciones adicionales (JSON)</label>
-            <textarea id="cfg-extra" rows="4" placeholder='{"timeout":5000}'></textarea>
-        </div>
+    <!-- JS base: reemplaza /js/template.js por tu script real -->
+    <script src="/js/template.js" defer></script>
 
-        <div>
-            <button id="btnSave" class="btn btn-primary">Guardar</button>
-            <button id="btnPreview" class="btn btn-secondary">Vista previa</button>
-            <button id="btnClose" class="btn btn-secondary">Cerrar</button>
-        </div>
+    <!-- Si necesitas scripts inline específicos, insertarlos donde corresponda -->
+    <!-- {{EXTRA_SCRIPTS}} -->
 
-        <pre id="log"
-            style="margin-top:14px;background:#f7f7f7;padding:10px;border-radius:6px;height:120px;overflow:auto"></pre>
-    </div>
-
+    <!-- Ejemplo de comportamiento JS básico (puedes extraerlo a js/template.js) -->
     <script>
-        // contrato de mensajes:
-        // recibir init -> { type:'init', payload:{ nodeId, initialConfig } }
-        // enviar save-config -> { type:'save-config', payload:{ nodeId, config } }
-        // enviar preview -> { type:'preview', payload:{ nodeId, preview } }
-        const logEl = document.getElementById('log');
-        let currentNodeId = null;
-        function log(msg) {
-            logEl.textContent = (new Date()).toLocaleTimeString() + ' — ' + msg + '\\n' + logEl.textContent;
+        // Helpers
+        const $ = id => document.getElementById(id);
+
+        function showStatus(text, type = 'info') {
+            const s = $('status');
+            s.textContent = text;
+            s.hidden = false;
+            s.className = 'status ' + type;
+            setTimeout(() => { s.hidden = true; }, 4500);
         }
 
-        window.addEventListener('message', (ev) => {
-            const m = ev.data;
-            if (!m || !m.type) return;
-            if (m.type === 'init') {
-                currentNodeId = m.payload?.nodeId ?? null;
-                const cfg = m.payload?.initialConfig ?? {};
-                document.getElementById('cfg-target').value = cfg.target || '';
-                document.getElementById('cfg-value').value = cfg.value || '';
-                document.getElementById('cfg-extra').value = cfg.extra ? JSON.stringify(cfg.extra, null, 2) : (typeof cfg.extra === 'string' ? cfg.extra : '');
-                log('init nodeId=' + currentNodeId);
-            }
-            if (m.type === 'validate') {
-                // optional: validate fields and post back
-                const ok = true;
-                ev.source.postMessage({ type:'validate-result', payload:{ ok } }, '*');
-            }
-        }, false);
-
-        function readConfig() {
-            const extraTxt = document.getElementById('cfg-extra').value;
-            let extra = null;
-            try {
-                extra = extraTxt ? JSON.parse(extraTxt) : null;
-            } catch (e) {
-                extra = extraTxt;
-            }
-            return {
-                target: document.getElementById('cfg-target').value,
-                value: document.getElementById('cfg-value').value,
-                extra
-            };
+        function clearResults() {
+            $('resultUrl').textContent = 'N/A';
+            $('resultStatus').textContent = 'Pendiente de Ejecución';
+            $('resultPath').textContent = 'N/A';
+            $('resultTimestamp').textContent = 'N/A';
+            $('resultTime').textContent = 'N/A';
+            const img = $('screenshotPreview');
+            img.hidden = true;
+            img.src = '';
+            $('previewPlaceholder').style.display = 'flex';
         }
 
-        document.getElementById('btnSave').addEventListener('click', () => {
-            const payload = { nodeId: currentNodeId, config: readConfig() };
-            parent.postMessage({ type:'save-config', payload }, '*');
-            log('save-config sent');
-        });
-        document.getElementById('btnPreview').addEventListener('click', () => {
-            const payload = { nodeId: currentNodeId, preview: { message:'preview', config: readConfig() } };
-            parent.postMessage({ type:'preview', payload }, '*');
-            log('preview sent');
-        });
-        document.getElementById('btnClose').addEventListener('click', () => {
-            parent.postMessage({ type:'close' }, '*');
+        // Acciones UI vinculadas a botones (reutilizables)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializa limpiar
+            clearResults();
+
+            $('btn-example').addEventListener('click', () => {
+                $('targetUrl').value = 'https://example.com';
+                $('viewport').value = 'desktop';
+                showStatus('Valores de ejemplo cargados');
+            });
+
+            $('btn-delete').addEventListener('click', () => {
+                if (!confirm('¿Deseas eliminar la configuración y limpiar los resultados?')) return;
+                $('configForm').reset();
+                clearResults();
+                showStatus('Configuración eliminada');
+            });
+
+            $('btn-close').addEventListener('click', () => {
+                const panel = document.querySelector('.panel-config');
+                if (!panel) return;
+                panel.style.transition = 'opacity 220ms ease, transform 220ms ease';
+                panel.style.opacity = '0';
+                panel.style.transform = 'translateX(-8px)';
+                setTimeout(() => panel.style.display = 'none', 220);
+            });
+
+            $('btn-run').addEventListener('click', async () => {
+                // Implementar integración real con backend o Playwright runner.
+                const url = $('targetUrl').value.trim();
+                if (!url) return showStatus('Introduce una URL válida.', 'error');
+
+                showStatus('Ejecución en curso...');
+                $('resultStatus').textContent = 'En progreso';
+                const start = Date.now();
+                try {
+                    // Simulación: reemplazar por fetch / websocket según tu arquitectura
+                    await new Promise(r => setTimeout(r, 900));
+                    const fakePath = `/screenshots/${Date.now()}-screenshot.png`;
+                    const elapsed = Date.now() - start;
+
+                    $('resultUrl').textContent = url;
+                    $('resultStatus').textContent = 'Completado';
+                    $('resultPath').textContent = fakePath;
+                    $('resultTimestamp').textContent = new Date().toLocaleString();
+                    $('resultTime').textContent = `${elapsed} ms`;
+
+                    const img = $('screenshotPreview');
+                    const demoSvg = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+                        `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700">
+              <rect width="100%" height="100%" fill="#f8fafc"/>
+              <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="28" fill="#9aa4b2">Screenshot de demo — ${new Date().toLocaleString()}</text>
+            </svg>`
+                    );
+                    img.src = demoSvg;
+                    img.hidden = false;
+                    $('previewPlaceholder').style.display = 'none';
+
+                    showStatus('Ejecución finalizada correctamente.');
+                } catch (err) {
+                    console.error(err);
+                    $('resultStatus').textContent = 'Error';
+                    showStatus('Error durante la ejecución: ' + (err.message || ''), 'error');
+                }
+            });
         });
     </script>
 </body>

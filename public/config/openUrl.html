@@ -1,50 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
-    <title>Playwright Configurator</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Playwright Configurator — Profesional</title>
+    <link rel="stylesheet" href="../css/openUrl.css" />
 </head>
 
 <body>
-    <table style="width: 100%; height: 100vh; border-collapse: collapse; font-family: sans-serif;">
-        <tr>
-            <td rowspan="2"
-                style="width: 50%; border: 1px solid #333; vertical-align: top; padding: 20px; background-color: #f4f4f4;">
-                <h2>⚙️ Configuración de Playwright</h2>
-                <form id="configForm">
-                    <label for="targetUrl" style="display: block; margin-top: 10px; font-weight: bold;">URL a
-                        Navegar:</label>
-                    <input type="text" id="targetUrl" value="https://example.com"
-                        style="width: 95%; padding: 8px; margin-top: 5px; border: 1px solid #ccc;">
+    <div class="container" role="main">
+        <section class="panel-config" aria-labelledby="configTitle">
+            <h2 id="configTitle">⚙️ Configuración</h2>
+            <p class="lead">Define la URL y opciones básicas antes de ejecutar el screenshot.</p>
 
-                    <p style="margin-top: 15px; font-style: italic; color: #555;">
-                        *La ruta del screenshot se define por defecto en el backend.
-                    </p>
-
-                </form>
-                <div id="status" style="margin-top: 20px; font-weight: bold;"></div>
-            </td>
-
-            <td style="width: 50%; height: 50%; border: 1px solid #333; vertical-align: top; padding: 20px;">
-                <h2>📝 Información de la Ejecución</h2>
-                <div id="executionResults">
-                    <p><strong>URL Accedida:</strong> <span id="resultUrl">N/A</span></p>
-                    <p><strong>Estado de Navegación:</strong> <span id="resultStatus">Pendiente de Ejecución</span></p>
-                    <p><strong>Ruta de Archivo Generado:</strong> <span id="resultPath">N/A</span></p>
-                    <p><strong>Timestamp de Ejecución:</strong> <span id="resultTimestamp">N/A</span></p>
-                    <p><strong>Tiempo Total:</strong> <span id="resultTime">N/A</span></p>
+            <form id="configForm" aria-describedby="configNote">
+                <div>
+                    <label for="targetUrl">URL a Navegar</label>
+                    <input id="targetUrl" type="text" value="https://www.example.com" aria-label="URL a navegar" />
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 50%; height: 50%; border: 1px solid #333; vertical-align: top; padding: 20px;">
-                <h2>🖼️ Resultado/Vista Previa</h2>
-                <p>Aquí se podría incrustar el screenshot generado después de la ejecución.</p>
-                <img id="screenshotPreview" src="" alt="Vista previa del screenshot"
-                    style="max-width: 100%; border: 1px solid #ccc; display: none;">
-            </td>
-        </tr>
-    </table>
+
+                <div>
+                    <label for="viewport">Viewport (opcional)</label>
+                    <select id="viewport" aria-label="Viewport">
+                        <option value="desktop">Desktop — 1366x768</option>
+                        <option value="tablet">Tablet — 768x1024</option>
+                        <option value="mobile">Mobile — 375x812</option>
+                    </select>
+                </div>
+
+                <div id="status" class="status" role="status" aria-live="polite" style="display:none;">Estado</div>
+
+                <div class="config-footer" role="group" aria-label="Acciones de configuración">
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Eliminar</button>
+                </div>
+            </form>
+        </section>
+
+        <aside class="card execution-info" aria-labelledby="execTitle">
+            <h3 id="execTitle">📝 Información de la Ejecución</h3>
+            <p><strong>URL Accedida:</strong> <span id="resultUrl">N/A</span></p>
+            <p><strong>Estado de Navegación:</strong> <span id="resultStatus">Pendiente de Ejecución</span></p>
+            <p><strong>Ruta de Archivo Generado:</strong> <span id="resultPath">N/A</span></p>
+            <p><strong>Timestamp de Ejecución:</strong> <span id="resultTimestamp">N/A</span></p>
+            <p><strong>Tiempo Total:</strong> <span id="resultTime">N/A</span></p>
+        </aside>
+
+        <section class="card preview" aria-labelledby="previewTitle">
+            <h3 id="previewTitle">🖼️ Resultado / Vista Previa</h3>
+            <p class="muted-note">La imagen se mostrará aquí tras la ejecución.</p>
+            <img id="screenshotPreview" class="screenshot" src="" alt="Vista previa del screenshot generado" />
+            <div id="previewPlaceholder" class="preview-placeholder">
+                <span class="muted-note">Sin vista previa — ejecuta para generar</span>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/options/openUrl.js" defer></script>
 </body>
 
 </html>
