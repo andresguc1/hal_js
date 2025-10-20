@@ -1,11 +1,10 @@
-// Gestión de localStorage
+// js/storage.js — gestión de localStorage
 
 const STORAGE_KEYS = {
   ACTIONS_SHAPES: 'haljs_actions_shapes',
   ACTIONS_COUNTER: 'haljs_actions_counter',
 };
 
-// Guardar en localStorage
 function saveToLocalStorage(shapes, counter) {
   try {
     localStorage.setItem(STORAGE_KEYS.ACTIONS_SHAPES, JSON.stringify(shapes));
@@ -14,32 +13,24 @@ function saveToLocalStorage(shapes, counter) {
     console.error('Error guardando en localStorage:', error);
     if (typeof window.showNotification === 'function') {
       window.showNotification('Error al guardar los datos', true);
-    } else {
-      console.warn('Error al guardar los datos (showNotification no disponible)');
     }
   }
 }
 
-// Cargar desde localStorage
 function loadFromLocalStorage() {
   try {
     const savedShapes = localStorage.getItem(STORAGE_KEYS.ACTIONS_SHAPES);
     const savedCounter = localStorage.getItem(STORAGE_KEYS.ACTIONS_COUNTER);
-
     return {
       shapes: savedShapes ? JSON.parse(savedShapes) : [],
       counter: savedCounter ? parseInt(savedCounter) : 0,
     };
   } catch (error) {
     console.error('Error cargando desde localStorage:', error);
-    return {
-      shapes: [],
-      counter: 0,
-    };
+    return { shapes: [], counter: 0 };
   }
 }
 
-// Limpiar localStorage
 function clearLocalStorage() {
   try {
     localStorage.removeItem(STORAGE_KEYS.ACTIONS_SHAPES);
@@ -49,7 +40,6 @@ function clearLocalStorage() {
   }
 }
 
-// Exportar a JSON
 function exportToJSON(shapes) {
   const dataStr = JSON.stringify(shapes, null, 2);
   const dataBlob = new Blob([dataStr], { type: 'application/json' });
@@ -61,16 +51,13 @@ function exportToJSON(shapes) {
   URL.revokeObjectURL(url);
 }
 
-// Importar desde JSON
 function importFromJSON(callback) {
   const input = document.createElement('input');
   input.type = 'file';
   input.accept = '.json';
-
   input.onchange = function (e) {
     const file = e.target.files[0];
     const reader = new FileReader();
-
     reader.onload = function (event) {
       try {
         const loadedShapes = JSON.parse(event.target.result);
@@ -79,14 +66,12 @@ function importFromJSON(callback) {
         callback(null, error);
       }
     };
-
     reader.readAsText(file);
   };
-
   input.click();
 }
 
-// Exportar funciones globalmente
+// Exponer API global
 window.storage = {
   save: saveToLocalStorage,
   load: loadFromLocalStorage,
@@ -94,3 +79,5 @@ window.storage = {
   exportToJSON,
   importFromJSON,
 };
+
+console.log('📦 storage.js cargado');
